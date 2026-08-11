@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Aether — Sound made visible</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
+    <link rel="stylesheet" href="./assets/css/style.css">
+    </head>
+    <body>
+    <!--Navbar Section Start-->
+    <nav class="navbar navbar-expand-lg bg-white fixed-top py-3">
+        <div class="container">
+
+            <!-- Brand -->
+            <a class="navbar-brand" href="#">MyBrand</a>
+
+            <!-- Toggler for mobile -->
+            <button class="navbar-toggler " type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
+                aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Collapsible content -->
+            <div class="collapse navbar-collapse" id="navbarContent">
+
+                <!-- Nav links -->
+                <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">About</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Services
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Web Design</a></li>
+                            <li><a class="dropdown-item" href="#">Development</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="#">Consulting</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Portfolio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Contact</a>
+                    </li>
+                </ul>
+
+                <!-- Right side buttons -->
+                <div class="d-flex gap-2 mt-3 mt-lg-0">
+                    <a href="#" class="btn cyan btn-cta">Login</a>
+                    <a href="#" class="btn cyan btn-cta">Sign Up</a>
+                </div>
+
+            </div>
+        </div>
+    </nav>
+
+    <!--Navbar Section End-->
+
+    <!--First Section Start-->
+    <div class="section_first">
+        <div id="shape3d"></div>
+
+        <section class="hero">
+            <div class="top-row">
+                <div class="mark">AE<span>·</span>THER</div>
+                <div class="signal">SIGNAL / <span class="val">LIVE</span><br />440.0 HZ REF</div>
+            </div>
+
+            <div class="mid">
+                <div class="eyebrow">Studio for generative sound</div>
+                <h1>Every waveform<br />is a <em>shape</em><br />waiting to be heard.</h1>
+                <p class="desc">Aether turns synthesis parameters into sculpture — design timbre the way you'd sculpt
+                    clay, and watch the instrument take form as you tune it.</p>
+            </div>
+
+            <div class="bottom-row">
+                <div class="cta-group">
+                    <button class="cta">Start composing</button>
+                    <button class="secondary">Hear an example →</button>
+                </div>
+                <div class="freq-label">PARTICLES REACT TO<br />CURSOR &amp; AMBIENT NOISE</div>
+            </div>
+        </section>
+    </div>
+    <!--First Section  End-->
+
+<!--Second Section Start-->
+   
+ 
+<div class="second_section" id="targetSection">
+    <canvas id="webgl-canvas"></canvas>
+    <div class="center-text">
+        <h2>AAYTRIX SOLUTIONS</h2>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi, distinctio magnam alias corrupti facilis aliquam maxime at! Repellendus natus aliquid temporibus, vitae sint saepe quia impedit, veritatis laboriosam delectus vel.</p>
+    </div>
+</div>
+ 
+   
+    <!--Second Section End-->
+    <!--Three Section Start-->
+    <div class="interchange-section" id="scroll-section">
+  <div class="container-flex">
+   
+   
+    <div class="left-content">
+      <div class="text-step active" data-step="0">
+        <h2>01. Dynamic Web Architecture</h2>
+        <p>Custom tailored e-commerce platforms engineered for extreme performance and effortless user engagement.</p>
+      </div>
+ 
+      <div class="text-step" data-step="1">
+        <h2>02. Interactive 3D Interfaces</h2>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam magni quos, omnis, nobis enim neque repudiandae expedita consequuntur eligendi suscipit, odit nesciunt eum debitis! Ab sit nesciunt animi accusamus ducimus?
+            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Hic amet nostrum earum ad nulla! Tenetur repellendus, consequatur maiores cumque minima ab quidem culpa officiis blanditiis. Cum hic necessitatibus quo aliquam.
+        </p>
+      </div>
+ 
+      <div class="text-step" data-step="2">
+        <h2>03. Scalable IT Infrastructure</h2>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam magni quos, omnis, nobis enim neque repudiandae expedita consequuntur eligendi suscipit, odit nesciunt eum debitis! Ab sit nesciunt animi accusamus ducimus?
+            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Hic amet nostrum earum ad nulla! Tenetur repellendus, consequatur maiores cumque minima ab quidem culpa officiis blanditiis. Cum hic necessitatibus quo aliquam.
+        </p>
+      </div>
+ 
+    </div>
+ 
+    <div class="right-card" id="card-wrap">
+     
+    </div>
+ 
+  </div>
+</div> 
+   
+    <!-- Three Section  End -->
+
+    <!--Four Section Start-->
+   
+  <div class="four_section">
+  <canvas id="bg-canvas"></canvas>
+
+  <section class="section" id="section-4">
+    <div class="content right">
+      <h2>01. Performance Analytics</h2>
+      <p>Real-time data visualization driven by high-frequency GPU shading models.</p>
+    </div>
+    <div class="view-container" data-scene="icosahedron"></div>
+  </section>
+
+  <section class="section" id="section-1">
+    <div class="content left">
+      <h2>02. Dynamic Web Architecture</h2>
+      <p>Custom tailored e-commerce platforms engineered for extreme performance and effortless user engagement.</p>
+    </div>
+    <div class="view-container" data-scene="sphere"></div>
+  </section>
+
+  <section class="section" id="section-2">
+    <div class="content right">
+      <h2>03. Interactive 3D Interfaces</h2>
+      <p>Immersive visual branding assets that transform standard websites into high-converting digital experiences.</p>
+    </div>
+    <div class="view-container" data-scene="torus"></div>
+  </section>
+
+  <section class="section" id="section-3">
+    <div class="content left">
+      <h2>04. Scalable IT Infrastructure</h2>
+      <p>Robust backend integrations and Meta developer configurations designed for long-term growth.</p>
+    </div>
+    <div class="view-container" data-scene="cubes"></div>
+  </section>
+</div>
+    <!--Four Section  End-->
+    <!--Testimonial Section Start  -->
+ 
+  <main class="testimonials_section">
+    <div class="container">
+      <div class="slider-wrapper">
+ 
+       
+        <div class="testimonial-card">
+         
+        <div class="testimonials-heading">
+            <h2>What People Are Saying</h2>
+            <p>Trusted by teams who care about capturing every voice, even mid-journey.</p>
+          </div>
+          <div class="avatar-wrapper">
+           
+           
+            <div class="glow-circle"></div>
+ 
+           
+            <div class="avatar-mask">
+              <div id="avatar-container" class="avatar-container">
+              
+              </div>
+            </div>
+ 
+          </div>
+ 
+          <!-- Quote Text Section -->
+          <div class="quote-section">
+            <div class="quote-text" id="quote">
+              <!-- Quote text injects dynamically -->
+            </div>
+          </div>
+ 
+          <!-- Navigation Button Tabs -->
+          <div class="tabs-container" id="tabs-container">
+            <!-- Buttons inject dynamically -->
+          </div>
+ 
+        </div>
+ 
+      </div>
+    </div>
+  </main>
+
+ <!--Testimonial Section Start-->
+<!--Slider Section Start-->
+<section class="reviews-section">
+  <div class="reviews-wrapper">
+      <div class="reviews-heading">
+        <h2>What Our Customers Say</h2>
+        <p>Real feedback from people who trust our work — honest words, genuine experiences.</p>
+      </div>
+    <div class="reviews-container">
+      <div class="reviews-grid">
+        
+        <!-- Left Image Stack -->
+        <div class="image-container" id="image-container"></div>
+        
+        <!-- Right Content Glass Box -->
+        <div class="review-content" id="review-content">
+          <div class="text-group">
+            <h3 class="name" id="name"></h3>
+            <p class="designation" id="designation"></p>
+            <p class="quotes-reviews" id="para"></p> <!-- Quote text inside Right Box -->
+          </div>
+          
+          <div class="arrow-buttons">
+            <button class="arrow-button prev-button" id="prev-button">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
+              </svg>
+            </button>
+            <button class="arrow-button next-button" id="next-button">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!--Slider Section End-->
+     <!--Footer Section Start-->
+      <!--Footer Section Start-->
+    <footer class="site-footer">
+  <div class="container">
+    <div class="row gy-4">
+ 
+      <!-- Brand / About -->
+      <div class="col-12 col-md-6 col-lg-3">
+        <a href="#" class="brand">North<span>wind</span></a>
+        <p class="text-white">Digital products, built with care. We help small teams ship faster without cutting corners on quality.</p>
+        <div class="social-icons mt-3">
+          <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f text-white"></i></a>
+          <a href="#" aria-label="Twitter"><i class="fa-brands fa-twitter text-white"></i></a>
+          <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram text-white"></i></a>
+          <a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in text-white "></i></a>
+        </div>
+      </div>
+ 
+      <!-- Company -->
+      <div class="col-6 col-md-3 col-lg-2">
+        <h5>Company</h5>
+        <ul class="footer-links">
+          <li><a href="#">About us</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Press</a></li>
+          <li><a href="#">Blog</a></li>
+        </ul>
+      </div>
+ 
+      <!-- Resources -->
+      <div class="col-6 col-md-3 col-lg-2">
+        <h5>Resources</h5>
+        <ul class="footer-links">
+          <li><a href="#">Documentation</a></li>
+          <li><a href="#">Help center</a></li>
+          <li><a href="#">Guides</a></li>
+          <li><a href="#">API status</a></li>
+        </ul>
+      </div>
+ 
+      <!-- Contact -->
+      <div class="col-12 col-md-6 col-lg-2">
+        <h5>Contact</h5>
+        <ul class="footer-links footer-contact">
+          <li><i class="fa-solid fa-location-dot"></i><span class="text-white ">4th Floor, DLF Cyber City, Gurugram, IN</span></li>
+          <li><i class="fa-solid fa-phone"></i><span class="text-white ">+91 98765 43210</span></li>
+          <li><i class="fa-solid fa-envelope"></i><span class="text-white ">hello@northwind.co</span></li>
+        </ul>
+      </div>
+ 
+      <!-- Newsletter -->
+      <div class="col-12 col-lg-3">
+        <h5 clas="text-white ">Stay in the loop</h5>
+        <p class="text-white ">Product updates and the occasional good idea. No spam.</p>
+        <!-- <form class="newsletter-form d-flex flex-wrap flex-sm-nowrap gap-2 justify-content-center justify-content-lg-start" onsubmit="return false;">
+          <input type="email" class="form-control" placeholder="you@email.com" aria-label="Email address">
+          <button class="btn text-white" type="submit">Subscribe</button>
+        </form> -->
+        <form class="newsletter-form" onsubmit="return false;">
+    <div class="newsletter-box">
+        <input type="email" class="form-control" placeholder="you@email.com">
+        <button class="btn" type="submit">Subscribe</button>
+    </div>
+</form>
+      </div>
+ 
+    </div>
+ 
+    <!-- ================= BOTTOM BAR ================= -->
+    <div class="footer-bottom">
+      <div class="row align-items-center">
+        <div class="col-md-6">
+          <span class="text-white">&copy; <span id="year text-white"></span> Northwind Studio. All rights reserved.</span>
+        </div>
+        <div class="col-md-6 text-md-end">
+          <ul class="bottom-links list-unstyled mb-0">
+            <li><a href="#" class="text-white">Privacy policy</a></li>
+            <li><a href="#" class="text-white">Terms of service</a></li>
+            <li><a href="#" class="text-white">Cookies</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+ 
+ <!--Footer Section End-->
+   
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="./assets/js/script.js"></script>
+
+    </body>
+
+</html>
