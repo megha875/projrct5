@@ -17,7 +17,7 @@
     --teal:#0f3d3e;
     --cyan:#57ffe0;
     --cyan-dim:#2b6b62;
-    --sand:#f1e9d8;
+    --sand:#e7e0d8;
     --grey:#8b93a1;
   }
 
@@ -289,7 +289,7 @@
   font-family: 'JetBrains Mono', monospace;
   font-size: 13px;
   letter-spacing: 0.12em;
-  color: var(--sand, #f4f1ea);
+  color:#020202 !important;
   text-transform: uppercase;
 }
 
@@ -761,7 +761,7 @@
 }
 /*  Three Section  End  */
 /*Four Section Start  */
-.four_section {
+/* .four_section {
   position: relative;
   width: 100%;
   background-color:rgb(54, 56, 54);
@@ -825,9 +825,9 @@
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
 
 }
-/* Responsive adjustments for Tablets & Mobile (768px & below) */
+
 @media (max-width: 768px) {
-  /* Section ki Fixed Height (698px) ko Auto karke flexibility di gayi hai */
+
   .four_section .section {
     height: auto !important;
     flex-direction: column;
@@ -837,14 +837,14 @@
     gap: 2rem;
   }
 
-  /* Content width ko full karke Text ko Center align kiya gaya hai */
+ 
   .four_section .content {
     width: 100% !important;
     text-align: center;
-    order: 1 !important; /* Mobile par H2/P Text pehle aayega */
+    order: 1 !important; 
   }
 
-  /* Text Sizes & Margins */
+
   .four_section .content h2 {
     font-size: 1.8rem;
     margin-bottom: 0.75rem;
@@ -855,15 +855,15 @@
     line-height: 1.6;
   }
 
-  /* 3D View Container Alignment */
+
   .four_section .view-container {
     width: 100% !important;
-    height: 320px; /* Mobile Viewports ke hisab se constant height */
-    order: 2 !important; /* Mobile par 3D Canvas dynamic text ke niche aayega */
+    height: 320px; 
+    order: 2 !important; 
   }
 }
 
-/* Extra fine-tuning for smaller Mobile screens (428px & below) */
+
 @media (max-width: 428px) {
   .four_section .section {
     padding: 2rem 4%;
@@ -879,7 +879,136 @@
   }
 
   .four_section .view-container {
-    height: 260px; /* Chhoti screen ke liye viewport size optimize */
+    height: 260px; 
+  }
+} */
+.four_section {
+  position: relative;
+  width: 100%;
+  background-color: rgb(54, 56, 54);
+  overflow: hidden;
+}
+
+.four_section #bg-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Desktop Styles */
+.four_section .section {
+  position: relative;
+  width: 100%;
+  min-height: 480px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2rem 8%;
+  z-index: 2;
+  box-sizing: border-box;
+}
+
+.four_section .content {
+  width: 42%;
+  pointer-events: auto;
+}
+
+.four_section .content.right {
+  order: 2;
+}
+
+.four_section .content h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 0.8rem;
+  background: #57ffe0;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.four_section .content p {
+  font-size: 1.1rem;
+  color: #94a3b8;
+  line-height: 1.7;
+}
+
+.four_section .view-container {
+  width: 48%;
+  height: 450px;
+  border-radius: 20px;
+  border: 1px solid rgba(87, 255, 224, 0.15);
+  background: rgba(142, 146, 156, 0.03);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+/* ===================================================
+   TABLET & LAPTOP SMALL SCREENS (768px & below)
+   =================================================== */
+@media (max-width: 768px) {
+  .four_section .section {
+    height: auto !important;
+    min-height: auto;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* Top aur Bottom padding 1rem (16px) kar di hai spacing kam karne ke liye */
+    padding: 1rem 5% !important; 
+    /* Text aur Canvas box ke beech ka vertical space kam kiya */
+    gap: 0.8rem !important; 
+  }
+
+  .four_section .content {
+    width: 100% !important;
+    text-align: center;
+    order: 1 !important;
+  }
+
+  .four_section .content h2 {
+    font-size: 1.6rem;
+    /* Heading ke niche ki margin kam ki */
+    margin-bottom: 0.3rem !important; 
+  }
+
+  .four_section .content p {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    /* Paragraph ke niche ki margin zero ki */
+    margin-bottom: 0 !important; 
+  }
+
+  .four_section .view-container {
+    width: 100% !important;
+    height: 280px; /* Tablet view container height */
+    order: 2 !important;
+  }
+}
+
+/* ===================================================
+   MOBILE SCREENS (428px & below)
+   =================================================== */
+@media (max-width: 428px) {
+  .four_section .section {
+    /* Mobile par extra tight spacing ke liye 0.75rem padding */
+    padding: 0.75rem 4% !important; 
+    gap: 0.5rem !important;
+  }
+
+  .four_section .content h2 {
+    font-size: 1.25rem;
+    margin-bottom: 0.2rem !important;
+  }
+
+  .four_section .content p {
+    font-size: 0.88rem;
+    line-height: 1.4;
+  }
+
+  .four_section .view-container {
+    height: 220px; /* Mobile screen ke hisaab se height optimize */
   }
 }
 /* Four Section End */
@@ -1513,7 +1642,7 @@
   }
 
   .reviews-section .review-content {
-    background: rgba(28, 34, 54, 0.7);
+    /* background: rgba(28, 34, 54, 0.7); */
     border-radius: 20px;
     padding: 1.8rem;
     backdrop-filter: blur(15px);
