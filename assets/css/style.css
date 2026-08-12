@@ -565,7 +565,7 @@
 }
 
 .second_section .center-text h2 {
-  font-size: clamp(1.6rem, 5vw, 2.5rem);
+  font-size: 20px;
   font-weight: 700;
   margin: 0 0 20px 0;
   color: #57FFE0;
@@ -625,7 +625,7 @@
   position: relative;
   width: 100%;
   height: 600px;
-  /* background-color: #0b0c10; */
+  
   background-color:rgb(54, 56, 54);
   z-index: 2;
 }
@@ -667,7 +667,7 @@
 }
  
 .text-step h2 {
-  font-size: 2.5rem;
+  font-size:27px;
   font-weight: 700;
   margin-bottom: 15px;
   color: var(--cyan);
@@ -696,17 +696,103 @@
   height: 100% !important;
   display: block;
 }
-
-/* Responsive adjustments for Tablets & Mobile (768px & below) */
 @media (max-width: 768px) {
-  /* Section height auto taaki items vertical stack hone par overlap na ho */
+  .interchange-section {
+    height: 300vh !important;
+    padding: 0;
+  }
+
+  /* Flexbox Layout Adjustments */
+  .container-flex {
+    position: sticky !important;
+    top: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important; /* Screen ke vertical center mein rakhega */
+    align-items: center !important;
+    height: 100vh !important;
+    padding: 1.5rem 1rem !important; /* Top/Bottom padding add kar di */
+    gap: 0.8rem !important; /* Text aur Card ke beech ka gap kam kiya */
+    box-sizing: border-box !important;
+  }
+
+  /* Upper Text Box Fix */
+  .left-content {
+    width: 100% !important;
+    height: auto !important;
+    min-height: 120px !important; /* Extra height gap remove karne ke liye */
+    text-align: center !important;
+    position: relative !important;
+    z-index: 10 !important;
+  }
+
+  .text-step {
+    position: absolute;
+    top: 30px;
+    left: 0;
+    width: 100%;
+  }
+
+  .text-step h2 {
+    font-size: 1.4rem !important;
+    margin-bottom: 6px !important;
+    line-height: 1.2 !important;
+  }
+
+  .text-step p {
+    font-size: 0.85rem !important;
+    line-height: 1.35 !important;
+    color: #94a3b8;
+    max-width: 90%;
+    margin: 0 auto; /* Paragraph clear center alignment */
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* Max 3 lines text */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* Lower 3D Canvas Box Fix */
+  .right-card {
+    width: 100% !important;
+    height: 340px !important; /* Card size balanced */
+    margin-top: 0 !important;
+    position: relative !important;
+    z-index: 5 !important;
+  }
+}
+
+@media (max-width: 425px) {
+  .left-content {
+    /* min-height: 110px !important; */
+    height:220px;
+  }
+
+  .text-step h2 {
+    font-size: 16px !important;
+  }
+  
+  .text-step p {
+    font-size: 0.8rem !important;
+    -webkit-line-clamp: 2; /* Choti screens par 2 lines text */
+  }
+
+  .right-card {
+    height: 280px !important;
+  }
+}
+
+
+/* 
+
+@media (max-width: 768px) {
+
   .interchange-section {
     height:700px!important;
     min-height: 100vh;
     padding: 3rem 0;
   }
 
-  /* Sticky behavior remove karke column direction apply ki gayi hai */
+ 
 .interchange-section   .container-flex {
     position: relative;
     top: auto;
@@ -717,15 +803,15 @@
     gap: 2.5rem;
   }
 
-  /* Left Text Container Alignment */
+
   .left-content {
     width: 100%;
     height: auto;
-    min-height: 220px; /* Dynamic step content ke liye space */
-    text-align: center; /* Left & Right elements center aligned */
+    min-height: 220px; 
+    text-align: center; 
   }
 
-  /* Text elements inside steps */
+ 
   .text-step h2 {
     font-size: 1.8rem;
     margin-bottom: 10px;
@@ -736,14 +822,14 @@
     line-height: 1.5;
   }
 
-  /* Right Card Container Alignment */
+  
   .right-card {
     width: 100%;
-    height: 350px; /* Mobile/Tablet viewport ke hisab se height fix */
+    height: 350px;
   }
-}
+} */
+/* 
 
-/* Extra fine-tuning for smaller Mobile screens (425px & below) */
 @media (max-width: 425px) {
   .interchange-section {
     padding: 2rem 0;
@@ -758,7 +844,8 @@
     height: 280px;
     top: 57px;
   }
-}
+} */
+ 
 /*  Three Section  End  */
 /*Four Section Start  */
 /* .four_section {
@@ -922,7 +1009,7 @@
 }
 
 .four_section .content h2 {
-  font-size: 2.5rem;
+  font-size: 27px;
   font-weight: 700;
   margin-bottom: 0.8rem;
   background: #57ffe0;
@@ -998,7 +1085,7 @@
   }
 
   .four_section .content h2 {
-    font-size: 1.25rem;
+    font-size:16px;
     margin-bottom: 0.2rem !important;
   }
 
@@ -1063,7 +1150,7 @@
     }
 
     .testimonials_section .testimonials-heading h2 {
-      font-size: 2.5rem;
+      font-size: 20px;
       font-weight: 700;
       color: #57ffe0;
       margin: 0 0 12px 0;
@@ -1152,9 +1239,10 @@
     }
 
     .testimonials_section .quote-text {
-      font-size: 1.5rem;
+       font-size:18px;
+       font-weight:400;
       line-height: 2rem;
-      font-weight: 700;
+    
       color: #f8f7f7;
     }
 
@@ -1233,9 +1321,11 @@
 @media (max-width: 480px) {
 
   .testimonials_section .testimonials-heading h2 {
-    font-size:26px;
+    font-size:20px;
   }
-  
+  .testimonials_section .quote-text{
+    margin-top:-13px;
+  }
   .testimonials_section .testimonials-heading p {
     font-size: 0.88rem;
   }
@@ -1552,7 +1642,7 @@
   justify-content: center;
 }
 
-/* Base Grid (Mobile First default structure) */
+
 .reviews-section .reviews-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -1561,9 +1651,6 @@
   width: 100%;
 }
 
-/* ------------------------------------------------------------- */
-/* DESKTOP VIEW (768px & ABOVE) - Side-by-Side Grid Layout       */
-/* ------------------------------------------------------------- */
 @media (min-width:425px) {
 
   .reviews-section .reviews-heading h2 {
@@ -1603,9 +1690,7 @@
   }
 }
 
-/* ------------------------------------------------------------- */
-/* MOBILE VIEW (767px & BELOW) - Stacked Flex Column Layout     */
-/* ------------------------------------------------------------- */
+
 @media (max-width: 767px) {
   .reviews-section {
     padding: 40px 15px;
@@ -1617,7 +1702,7 @@
   }
 
   .reviews-section .reviews-heading h2 {
-    font-size: 1.8rem;
+    font-size: 20px;
   }
 
   .reviews-section .reviews-heading p {
@@ -1642,7 +1727,7 @@
   }
 
   .reviews-section .review-content {
-    /* background: rgba(28, 34, 54, 0.7); */
+  
     border-radius: 20px;
     padding: 1.8rem;
     backdrop-filter: blur(15px);
@@ -1685,8 +1770,9 @@
 }
 
 .reviews-section .name {
-  font-size: 1.65rem;
-  font-weight: 700;
+  font-size: 22px;
+  font-weight: 400;
+  
   color: #ffffff !important;
   margin: 0 0 0.25rem 0;
 }

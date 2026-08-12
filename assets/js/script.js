@@ -475,236 +475,429 @@
 
   // Three Section
   // --- First Section: Deforming Spheres with Text Sync ---
-  (function () {
-    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (reduceMotion) return;
+  // (function () {
+  //   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  //   if (reduceMotion) return;
   
-    var wrap = document.getElementById('card-wrap');
-    if (!wrap) return;
+  //   var wrap = document.getElementById('card-wrap');
+  //   if (!wrap) return;
   
-    var W = wrap.clientWidth;
-    var H = wrap.clientHeight;
+  //   var W = wrap.clientWidth;
+  //   var H = wrap.clientHeight;
   
-    // 1. Three.js Scene Setup
-    var scene = new THREE.Scene();
-    var camera = new THREE.PerspectiveCamera(50, W / H, 0.1, 100);
-    camera.position.set(0, 0, 6.2);
+  //   // 1. Three.js Scene Setup
+  //   var scene = new THREE.Scene();
+  //   var camera = new THREE.PerspectiveCamera(50, W / H, 0.1, 100);
+  //   camera.position.set(0, 0, 6.2);
   
-    var renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setSize(W, H);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    wrap.appendChild(renderer.domElement);
+  //   var renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+  //   renderer.setSize(W, H);
+  //   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  //   wrap.appendChild(renderer.domElement);
   
-    // 2. Base Geometry Setup
-    // High-detail geometry for points deformation
-    var baseGeo = new THREE.IcosahedronGeometry(2.0, 5);
-    var positions = baseGeo.attributes.position;
-    var count = positions.count;
+  //   // 2. Base Geometry Setup
+  //   // High-detail geometry for points deformation
+  //   var baseGeo = new THREE.IcosahedronGeometry(2.0, 5);
+  //   var positions = baseGeo.attributes.position;
+  //   var count = positions.count;
   
-    var basePositions = new Float32Array(count * 3);
-    for (var i = 0; i < count; i++) {
-      basePositions[i * 3] = positions.getX(i);
-      basePositions[i * 3 + 1] = positions.getY(i);
-      basePositions[i * 3 + 2] = positions.getZ(i);
-    }
+  //   var basePositions = new Float32Array(count * 3);
+  //   for (var i = 0; i < count; i++) {
+  //     basePositions[i * 3] = positions.getX(i);
+  //     basePositions[i * 3 + 1] = positions.getY(i);
+  //     basePositions[i * 3 + 2] = positions.getZ(i);
+  //   }
   
-    var pointsGeo = new THREE.BufferGeometry();
-    pointsGeo.setAttribute('position', new THREE.BufferAttribute(basePositions.slice(), 3));
+  //   var pointsGeo = new THREE.BufferGeometry();
+  //   pointsGeo.setAttribute('position', new THREE.BufferAttribute(basePositions.slice(), 3));
   
-    var pointsMat = new THREE.PointsMaterial({
-      color: 0x57ffe0,
-      size: 0.032,
-      transparent: true,
-      opacity: 0.88,
-      sizeAttenuation: true
-    });
-    var points = new THREE.Points(pointsGeo, pointsMat);
-    scene.add(points);
+  //   var pointsMat = new THREE.PointsMaterial({
+  //     color: 0x57ffe0,
+  //     size: 0.032,
+  //     transparent: true,
+  //     opacity: 0.88,
+  //     sizeAttenuation: true
+  //   });
+  //   var points = new THREE.Points(pointsGeo, pointsMat);
+  //   scene.add(points);
   
-    // Low-detail Wireframe Geometry (Icosahedron base)
-    // -> MODIFIED: Subdivisions reduced slightly for clearer structure change
-    var wireGeo = new THREE.IcosahedronGeometry(2.0, 2);
-    var wireMat = new THREE.MeshBasicMaterial({
-      color: 0x1f5b57,
-      wireframe: true,
-      transparent: true,
-      opacity: 0.18 // Initial low opacity
-    });
-    var wireMesh = new THREE.Mesh(wireGeo, wireMat);
-    scene.add(wireMesh);
-  
-  
-    // -> ADDED: Standard Sphere Wireframe for morph target effect
-    // This provides a smooth structure that points will detach from
-    var sphereGeo = new THREE.IcosahedronGeometry(2.0, 15); // Much smoother
-    var sphereWireMat = new THREE.MeshBasicMaterial({
-      color: 0x1f5b57,
-      wireframe: true,
-      transparent: true,
-      opacity: 0.0 // Starts invisible
-    });
-    var sphereWireMesh = new THREE.Mesh(sphereGeo, sphereWireMat);
-    scene.add(sphereWireMesh);
+  //   // Low-detail Wireframe Geometry (Icosahedron base)
+  //   // -> MODIFIED: Subdivisions reduced slightly for clearer structure change
+  //   var wireGeo = new THREE.IcosahedronGeometry(2.0, 2);
+  //   var wireMat = new THREE.MeshBasicMaterial({
+  //     color: 0x1f5b57,
+  //     wireframe: true,
+  //     transparent: true,
+  //     opacity: 0.18 // Initial low opacity
+  //   });
+  //   var wireMesh = new THREE.Mesh(wireGeo, wireMat);
+  //   scene.add(wireMesh);
   
   
-  
-    // 3. 3D Noise Generator (Unchanged)
-    function hash(x, y, z) {
-      var s = Math.sin(x * 127.1 + y * 311.7 + z * 74.7) * 43758.5453;
-      return s - Math.floor(s);
-    }
-  
-    function noise3(x, y, z) {
-      var xi = Math.floor(x), yi = Math.floor(y), zi = Math.floor(z);
-      var xf = x - xi, yf = y - yi, zf = z - zi;
-      function lerp(a, b, t) { return a + (b - a) * t; }
-      var n000 = hash(xi, yi, zi), n100 = hash(xi + 1, yi, zi);
-      var n010 = hash(xi, yi + 1, zi), n110 = hash(xi + 1, yi + 1, zi);
-      var n001 = hash(xi, yi, zi + 1), n101 = hash(xi + 1, yi, zi + 1);
-      var n011 = hash(xi, yi + 1, zi + 1), n111 = hash(xi + 1, yi + 1, zi + 1);
-      var u = xf * xf * (3 - 2 * xf), v = yf * yf * (3 - 2 * yf), w = zf * zf * (3 - 2 * zf);
-      var nx00 = lerp(n000, n100, u), nx10 = lerp(n010, n110, u);
-      var nx01 = lerp(n001, n101, u), nx11 = lerp(n011, n111, u);
-      var nxy0 = lerp(nx00, nx10, v), nxy1 = lerp(nx01, nx11, v);
-      return lerp(nxy0, nxy1, w);
-    }
-  
-    // 4. Mouse Dynamics (Unchanged)
-    var mouseX = 0, mouseY = 0;
-    window.addEventListener('mousemove', function (e) {
-      mouseX = (e.clientX / window.innerWidth) * 2 - 1;
-      mouseY = (e.clientY / window.innerHeight) * 2 - 1;
-    });
-  
-    // 5. Scroll Sync & Shape/Color Interpolation
-    var scrollSection = document.getElementById('scroll-section');
-    var textSteps = document.querySelectorAll('.text-step');
-  
-    // Deformation parameters (interpolated smoothly)
-    var targetDispScale = 0.4;
-    var targetFreq = 1.0;
-    var currentDispScale = 0.4;
-    var currentFreq = 1.0;
-  
-    // Structure/Visual parameters (interpolated smoothly)
-    // -> ADDED: For structural morphing
-    var targetWireOpacity = 0.18;
-    var targetSphereOpacity = 0.0;
-    var targetScale = 1.0;
-    var currentWireOpacity = 0.18;
-    var currentSphereOpacity = 0.0;
-    var currentScale = 1.0;
+  //   // -> ADDED: Standard Sphere Wireframe for morph target effect
+  //   // This provides a smooth structure that points will detach from
+  //   var sphereGeo = new THREE.IcosahedronGeometry(2.0, 15); // Much smoother
+  //   var sphereWireMat = new THREE.MeshBasicMaterial({
+  //     color: 0x1f5b57,
+  //     wireframe: true,
+  //     transparent: true,
+  //     opacity: 0.0 // Starts invisible
+  //   });
+  //   var sphereWireMesh = new THREE.Mesh(sphereGeo, sphereWireMat);
+  //   scene.add(sphereWireMesh);
   
   
-    // Colors for each scroll step
-    var colors = [
-      new THREE.Color(0x57ffe0), // Step 1: Cyan
-      new THREE.Color(0xa855f7), // Step 2: Purple
-      new THREE.Color(0x34d399)  // Step 3: Emerald
-    ];
-    var currentColor = colors[0].clone();
   
-    function updateScroll() {
-      if (!scrollSection) return;
-      var rect = scrollSection.getBoundingClientRect();
-      var totalHeight = rect.height - window.innerHeight;
-      // Normalized scroll progress (0 to 1)
-      var progress = Math.min(Math.max(-rect.top / totalHeight, 0), 1);
+  //   // 3. 3D Noise Generator (Unchanged)
+  //   function hash(x, y, z) {
+  //     var s = Math.sin(x * 127.1 + y * 311.7 + z * 74.7) * 43758.5453;
+  //     return s - Math.floor(s);
+  //   }
   
-      // Active Step Determination (for text highlighting)
-      var stepIndex = Math.min(Math.floor(progress * colors.length), colors.length - 1);
+  //   function noise3(x, y, z) {
+  //     var xi = Math.floor(x), yi = Math.floor(y), zi = Math.floor(z);
+  //     var xf = x - xi, yf = y - yi, zf = z - zi;
+  //     function lerp(a, b, t) { return a + (b - a) * t; }
+  //     var n000 = hash(xi, yi, zi), n100 = hash(xi + 1, yi, zi);
+  //     var n010 = hash(xi, yi + 1, zi), n110 = hash(xi + 1, yi + 1, zi);
+  //     var n001 = hash(xi, yi, zi + 1), n101 = hash(xi + 1, yi, zi + 1);
+  //     var n011 = hash(xi, yi + 1, zi + 1), n111 = hash(xi + 1, yi + 1, zi + 1);
+  //     var u = xf * xf * (3 - 2 * xf), v = yf * yf * (3 - 2 * yf), w = zf * zf * (3 - 2 * zf);
+  //     var nx00 = lerp(n000, n100, u), nx10 = lerp(n010, n110, u);
+  //     var nx01 = lerp(n001, n101, u), nx11 = lerp(n011, n111, u);
+  //     var nxy0 = lerp(nx00, nx10, v), nxy1 = lerp(nx01, nx11, v);
+  //     return lerp(nxy0, nxy1, w);
+  //   }
   
-      textSteps.forEach(function (step, idx) {
-        if (idx === stepIndex) {
-          step.classList.add('active');
-        } else {
-          step.classList.remove('active');
-        }
-      });
+  //   // 4. Mouse Dynamics (Unchanged)
+  //   var mouseX = 0, mouseY = 0;
+  //   window.addEventListener('mousemove', function (e) {
+  //     mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+  //     mouseY = (e.clientY / window.innerHeight) * 2 - 1;
+  //   });
   
-      // --- MORPHING LOGIC BASED ON SCROLL ---
+  //   // 5. Scroll Sync & Shape/Color Interpolation
+  //   var scrollSection = document.getElementById('scroll-section');
+  //   var textSteps = document.querySelectorAll('.text-step');
   
-      // 1. Noise Deformation (Starts low, increases)
-      targetDispScale = 0.3 + progress * 1.4; // Shape distortion range
-      targetFreq = 0.8 + progress * 1.5;      // Noise frequency range
+  //   // Deformation parameters (interpolated smoothly)
+  //   var targetDispScale = 0.4;
+  //   var targetFreq = 1.0;
+  //   var currentDispScale = 0.4;
+  //   var currentFreq = 1.0;
   
-      // 2. Structural Wireframes (Cross-fade)
-      // As you scroll, the detailed sphere wireframe fades in, and the rough low-poly one fades out.
-      targetWireOpacity = 0.18 - (progress * 0.15); // Rough wireframe fades slightly
-      targetSphereOpacity = 0.0 + (progress * 0.25); // Smooth wireframe fades in
+  //   // Structure/Visual parameters (interpolated smoothly)
+  //   // -> ADDED: For structural morphing
+  //   var targetWireOpacity = 0.18;
+  //   var targetSphereOpacity = 0.0;
+  //   var targetScale = 1.0;
+  //   var currentWireOpacity = 0.18;
+  //   var currentSphereOpacity = 0.0;
+  //   var currentScale = 1.0;
   
-      // 3. Overall Scale (Slight increase)
-      targetScale = 1.0 + progress * 0.15; // Grows by 15% at max scroll
+  
+  //   // Colors for each scroll step
+  //   var colors = [
+  //     new THREE.Color(0x57ffe0), // Step 1: Cyan
+  //     new THREE.Color(0xa855f7), // Step 2: Purple
+  //     new THREE.Color(0x34d399)  // Step 3: Emerald
+  //   ];
+  //   var currentColor = colors[0].clone();
+  
+  //   function updateScroll() {
+  //     if (!scrollSection) return;
+  //     var rect = scrollSection.getBoundingClientRect();
+  //     var totalHeight = rect.height - window.innerHeight;
+  //     // Normalized scroll progress (0 to 1)
+  //     var progress = Math.min(Math.max(-rect.top / totalHeight, 0), 1);
+  
+  //     // Active Step Determination (for text highlighting)
+  //     var stepIndex = Math.min(Math.floor(progress * colors.length), colors.length - 1);
+  
+  //     textSteps.forEach(function (step, idx) {
+  //       if (idx === stepIndex) {
+  //         step.classList.add('active');
+  //       } else {
+  //         step.classList.remove('active');
+  //       }
+  //     });
+  
+  //     // --- MORPHING LOGIC BASED ON SCROLL ---
+  
+  //     // 1. Noise Deformation (Starts low, increases)
+  //     targetDispScale = 0.3 + progress * 1.4; // Shape distortion range
+  //     targetFreq = 0.8 + progress * 1.5;      // Noise frequency range
+  
+  //     // 2. Structural Wireframes (Cross-fade)
+  //     // As you scroll, the detailed sphere wireframe fades in, and the rough low-poly one fades out.
+  //     targetWireOpacity = 0.18 - (progress * 0.15); // Rough wireframe fades slightly
+  //     targetSphereOpacity = 0.0 + (progress * 0.25); // Smooth wireframe fades in
+  
+  //     // 3. Overall Scale (Slight increase)
+  //     targetScale = 1.0 + progress * 0.15; // Grows by 15% at max scroll
     
-      // 4. Smooth Color Interpolation
-      currentColor.lerp(colors[stepIndex], 0.08);
-      pointsMat.color.copy(currentColor);
-      // wireMat.color.copy(currentColor); // Optional: change wire color too
-      // sphereWireMat.color.copy(currentColor);
-    }
+  //     // 4. Smooth Color Interpolation
+  //     currentColor.lerp(colors[stepIndex], 0.08);
+  //     pointsMat.color.copy(currentColor);
+  //     // wireMat.color.copy(currentColor); // Optional: change wire color too
+  //     // sphereWireMat.color.copy(currentColor);
+  //   }
   
-    window.addEventListener('scroll', updateScroll);
+  //   window.addEventListener('scroll', updateScroll);
   
-    var clock = new THREE.Clock();
+  //   var clock = new THREE.Clock();
   
-    // 6. Animation Loop
-    function animate() {
-      requestAnimationFrame(animate);
-      var t = clock.getElapsedTime();
+  //   // 6. Animation Loop
+  //   function animate() {
+  //     requestAnimationFrame(animate);
+  //     var t = clock.getElapsedTime();
     
-      // Smooth lerp for ALL parameters (deformation and structural)
-      currentDispScale += (targetDispScale - currentDispScale) * 0.05;
-      currentFreq += (targetFreq - currentFreq) * 0.05;
-      currentWireOpacity += (targetWireOpacity - currentWireOpacity) * 0.08;
-      currentSphereOpacity += (targetSphereOpacity - currentSphereOpacity) * 0.08;
-      currentScale += (targetScale - currentScale) * 0.05;
+  //     // Smooth lerp for ALL parameters (deformation and structural)
+  //     currentDispScale += (targetDispScale - currentDispScale) * 0.05;
+  //     currentFreq += (targetFreq - currentFreq) * 0.05;
+  //     currentWireOpacity += (targetWireOpacity - currentWireOpacity) * 0.08;
+  //     currentSphereOpacity += (targetSphereOpacity - currentSphereOpacity) * 0.08;
+  //     currentScale += (targetScale - currentScale) * 0.05;
   
-      // Apply interpolated structural changes
-      wireMat.opacity = currentWireOpacity;
-      sphereWireMat.opacity = currentSphereOpacity;
-      points.scale.set(currentScale, currentScale, currentScale);
-      wireMesh.scale.set(currentScale, currentScale, currentScale);
-      sphereWireMesh.scale.set(currentScale, currentScale, currentScale);
+  //     // Apply interpolated structural changes
+  //     wireMat.opacity = currentWireOpacity;
+  //     sphereWireMat.opacity = currentSphereOpacity;
+  //     points.scale.set(currentScale, currentScale, currentScale);
+  //     wireMesh.scale.set(currentScale, currentScale, currentScale);
+  //     sphereWireMesh.scale.set(currentScale, currentScale, currentScale);
   
   
-      // Apply Noise Deformation to Points (Unchanged logic)
-      var posAttr = pointsGeo.attributes.position;
-      for (var i = 0; i < count; i++) {
-        var bx = basePositions[i * 3], by = basePositions[i * 3 + 1], bz = basePositions[i * 3 + 2];
+  //     // Apply Noise Deformation to Points (Unchanged logic)
+  //     var posAttr = pointsGeo.attributes.position;
+  //     for (var i = 0; i < count; i++) {
+  //       var bx = basePositions[i * 3], by = basePositions[i * 3 + 1], bz = basePositions[i * 3 + 2];
       
-        var nx = bx * currentFreq + t * 0.4;
-        var ny = by * currentFreq + t * 0.4;
-        var nz = bz * currentFreq + t * 0.4;
+  //       var nx = bx * currentFreq + t * 0.4;
+  //       var ny = by * currentFreq + t * 0.4;
+  //       var nz = bz * currentFreq + t * 0.4;
   
-        var n = noise3(nx, ny, nz);
-        var disp = 1 + (n - 0.5) * currentDispScale;
+  //       var n = noise3(nx, ny, nz);
+  //       var disp = 1 + (n - 0.5) * currentDispScale;
   
-        posAttr.setXYZ(i, bx * disp, by * disp, bz * disp);
+  //       posAttr.setXYZ(i, bx * disp, by * disp, bz * disp);
+  //     }
+  //     posAttr.needsUpdate = true;
+  
+  //     // Smooth Rotation (Added mouse interaction to the main points object too)
+  //     points.rotation.y = t * 0.12 + mouseX * 0.25;
+  //     points.rotation.x = mouseY * 0.15;
+  
+  //     wireMesh.rotation.y = -t * 0.06;
+  //     wireMesh.rotation.x = t * 0.04;
+  //     sphereWireMesh.rotation.copy(wireMesh.rotation); // Sync smoother mesh rotation
+  
+  
+  //     renderer.render(scene, camera);
+  //   }
+  //   animate();
+  
+  //   // 7. Responsive Resize Handler (Unchanged)
+  //   window.addEventListener('resize', function () {
+  //     W = wrap.clientWidth;
+  //     H = wrap.clientHeight;
+  //     camera.aspect = W / H;
+  //     camera.updateProjectionMatrix();
+  //     renderer.setSize(W, H);
+  //   });
+  // })();
+
+  (function () {
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduceMotion) return;
+
+  var wrap = document.getElementById('card-wrap');
+  if (!wrap) return;
+
+  var W = wrap.clientWidth;
+  var H = wrap.clientHeight;
+
+  // 1. Three.js Scene Setup
+  var scene = new THREE.Scene();
+  var camera = new THREE.PerspectiveCamera(50, W / H, 0.1, 100);
+  camera.position.set(0, 0, 6.2);
+
+  var renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+  renderer.setSize(W, H);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  wrap.appendChild(renderer.domElement);
+
+  // 2. Base Geometry Setup
+  var baseGeo = new THREE.IcosahedronGeometry(2.0, 5);
+  var positions = baseGeo.attributes.position;
+  var count = positions.count;
+
+  var basePositions = new Float32Array(count * 3);
+  for (var i = 0; i < count; i++) {
+    basePositions[i * 3] = positions.getX(i);
+    basePositions[i * 3 + 1] = positions.getY(i);
+    basePositions[i * 3 + 2] = positions.getZ(i);
+  }
+
+  var pointsGeo = new THREE.BufferGeometry();
+  pointsGeo.setAttribute('position', new THREE.BufferAttribute(basePositions.slice(), 3));
+
+  var pointsMat = new THREE.PointsMaterial({
+    color: 0x57ffe0,
+    size: 0.032,
+    transparent: true,
+    opacity: 0.88,
+    sizeAttenuation: true
+  });
+  var points = new THREE.Points(pointsGeo, pointsMat);
+  scene.add(points);
+
+  var wireGeo = new THREE.IcosahedronGeometry(2.0, 2);
+  var wireMat = new THREE.MeshBasicMaterial({
+    color: 0x1f5b57,
+    wireframe: true,
+    transparent: true,
+    opacity: 0.18
+  });
+  var wireMesh = new THREE.Mesh(wireGeo, wireMat);
+  scene.add(wireMesh);
+
+  var sphereGeo = new THREE.IcosahedronGeometry(2.0, 15);
+  var sphereWireMat = new THREE.MeshBasicMaterial({
+    color: 0x1f5b57,
+    wireframe: true,
+    transparent: true,
+    opacity: 0.0
+  });
+  var sphereWireMesh = new THREE.Mesh(sphereGeo, sphereWireMat);
+  scene.add(sphereWireMesh);
+
+  // 3. Noise Function
+  function hash(x, y, z) {
+    var s = Math.sin(x * 127.1 + y * 311.7 + z * 74.7) * 43758.5453;
+    return s - Math.floor(s);
+  }
+
+  function noise3(x, y, z) {
+    var xi = Math.floor(x), yi = Math.floor(y), zi = Math.floor(z);
+    var xf = x - xi, yf = y - yi, zf = z - zi;
+    function lerp(a, b, t) { return a + (b - a) * t; }
+    var n000 = hash(xi, yi, zi), n100 = hash(xi + 1, yi, zi);
+    var n010 = hash(xi, yi + 1, zi), n110 = hash(xi + 1, yi + 1, zi);
+    var n001 = hash(xi, yi, zi + 1), n101 = hash(xi + 1, yi, zi + 1);
+    var n011 = hash(xi, yi + 1, zi + 1), n111 = hash(xi + 1, yi + 1, zi + 1);
+    var u = xf * xf * (3 - 2 * xf), v = yf * yf * (3 - 2 * yf), w = zf * zf * (3 - 2 * zf);
+    var nx00 = lerp(n000, n100, u), nx10 = lerp(n010, n110, u);
+    var nx01 = lerp(n001, n101, u), nx11 = lerp(n011, n111, u);
+    var nxy0 = lerp(nx00, nx10, v), nxy1 = lerp(nx01, nx11, v);
+    return lerp(nxy0, nxy1, w);
+  }
+
+  // Mouse / Touch Tracking
+  var mouseX = 0, mouseY = 0;
+  window.addEventListener('mousemove', function (e) {
+    mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+    mouseY = (e.clientY / window.innerHeight) * 2 - 1;
+  });
+
+  // 5. Scroll Sync Logic
+  var scrollSection = document.getElementById('scroll-section');
+  var textSteps = document.querySelectorAll('.text-step');
+
+  var targetDispScale = 0.4, targetFreq = 1.0;
+  var currentDispScale = 0.4, currentFreq = 1.0;
+
+  var targetWireOpacity = 0.18, targetSphereOpacity = 0.0, targetScale = 1.0;
+  var currentWireOpacity = 0.18, currentSphereOpacity = 0.0, currentScale = 1.0;
+
+  var colors = [
+    new THREE.Color(0x57ffe0),
+    new THREE.Color(0xa855f7),
+    new THREE.Color(0x34d399)
+  ];
+  var currentColor = colors[0].clone();
+
+  function updateScroll() {
+    if (!scrollSection) return;
+    var rect = scrollSection.getBoundingClientRect();
+    var totalHeight = rect.height - window.innerHeight;
+    var progress = Math.min(Math.max(-rect.top / totalHeight, 0), 1);
+
+    var stepIndex = Math.min(Math.floor(progress * colors.length), colors.length - 1);
+
+    // Dynamic Text Switching Fix
+    textSteps.forEach(function (step, idx) {
+      if (idx === stepIndex) {
+        step.classList.add('active');
+      } else {
+        step.classList.remove('active');
       }
-      posAttr.needsUpdate = true;
-  
-      // Smooth Rotation (Added mouse interaction to the main points object too)
-      points.rotation.y = t * 0.12 + mouseX * 0.25;
-      points.rotation.x = mouseY * 0.15;
-  
-      wireMesh.rotation.y = -t * 0.06;
-      wireMesh.rotation.x = t * 0.04;
-      sphereWireMesh.rotation.copy(wireMesh.rotation); // Sync smoother mesh rotation
-  
-  
-      renderer.render(scene, camera);
-    }
-    animate();
-  
-    // 7. Responsive Resize Handler (Unchanged)
-    window.addEventListener('resize', function () {
-      W = wrap.clientWidth;
-      H = wrap.clientHeight;
-      camera.aspect = W / H;
-      camera.updateProjectionMatrix();
-      renderer.setSize(W, H);
     });
-  })();
+
+    targetDispScale = 0.3 + progress * 1.4;
+    targetFreq = 0.8 + progress * 1.5;
+    targetWireOpacity = 0.18 - (progress * 0.15);
+    targetSphereOpacity = 0.0 + (progress * 0.25);
+    targetScale = 1.0 + progress * 0.15;
+
+    currentColor.lerp(colors[stepIndex], 0.08);
+    pointsMat.color.copy(currentColor);
+  }
+
+  window.addEventListener('scroll', updateScroll);
+  window.addEventListener('touchmove', updateScroll); // Added touch listener for mobile devices
+
+  var clock = new THREE.Clock();
+
+  function animate() {
+    requestAnimationFrame(animate);
+    var t = clock.getElapsedTime();
+
+    currentDispScale += (targetDispScale - currentDispScale) * 0.05;
+    currentFreq += (targetFreq - currentFreq) * 0.05;
+    currentWireOpacity += (targetWireOpacity - currentWireOpacity) * 0.08;
+    currentSphereOpacity += (targetSphereOpacity - currentSphereOpacity) * 0.08;
+    currentScale += (targetScale - currentScale) * 0.05;
+
+    wireMat.opacity = currentWireOpacity;
+    sphereWireMat.opacity = currentSphereOpacity;
+    points.scale.set(currentScale, currentScale, currentScale);
+    wireMesh.scale.set(currentScale, currentScale, currentScale);
+    sphereWireMesh.scale.set(currentScale, currentScale, currentScale);
+
+    var posAttr = pointsGeo.attributes.position;
+    for (var i = 0; i < count; i++) {
+      var bx = basePositions[i * 3], by = basePositions[i * 3 + 1], bz = basePositions[i * 3 + 2];
+
+      var nx = bx * currentFreq + t * 0.4;
+      var ny = by * currentFreq + t * 0.4;
+      var nz = bz * currentFreq + t * 0.4;
+
+      var n = noise3(nx, ny, nz);
+      var disp = 1 + (n - 0.5) * currentDispScale;
+
+      posAttr.setXYZ(i, bx * disp, by * disp, bz * disp);
+    }
+    posAttr.needsUpdate = true;
+
+    points.rotation.y = t * 0.12 + mouseX * 0.25;
+    points.rotation.x = mouseY * 0.15;
+
+    wireMesh.rotation.y = -t * 0.06;
+    wireMesh.rotation.x = t * 0.04;
+    sphereWireMesh.rotation.copy(wireMesh.rotation);
+
+    renderer.render(scene, camera);
+  }
+  animate();
+
+  window.addEventListener('resize', function () {
+    W = wrap.clientWidth;
+    H = wrap.clientHeight;
+    camera.aspect = W / H;
+    camera.updateProjectionMatrix();
+    renderer.setSize(W, H);
+  });
+})();
   // Four Section
   // (function () {
   //   const canvas = document.getElementById('bg-canvas');
