@@ -1080,7 +1080,7 @@
     }
 
     .testimonials_section .tab-btn:not(.active) {
-      background-color: #1e293b;
+      background-color: #585858;
       color: #cbd5e1;
     }
 
@@ -1104,7 +1104,7 @@
 @media (max-width: 480px) {
 
   .testimonials_section .testimonials-heading h2 {
-    font-size:20px;
+    font-size:26px;
   }
   
   .testimonials_section .testimonials-heading p {
@@ -1435,6 +1435,12 @@
 /* ------------------------------------------------------------- */
 /* DESKTOP VIEW (768px & ABOVE) - Side-by-Side Grid Layout       */
 /* ------------------------------------------------------------- */
+@media (min-width:425px) {
+
+  .reviews-section .reviews-heading h2 {
+    font-size: 20px;
+  }
+}
 @media (min-width: 768px) {
   .reviews-section .reviews-grid {
     display: grid !important;
