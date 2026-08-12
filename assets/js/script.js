@@ -186,6 +186,120 @@
   // ==========================================
   // SECOND SECTION: GSAP ScrollTrigger Shapes
   // ==========================================
+  // (function () {
+  //   const container = document.getElementById('targetSection');
+  //   const canvas = document.getElementById('webgl-canvas');
+  //   if (!container || !canvas || typeof THREE === 'undefined' || typeof gsap === 'undefined') return;
+
+  //   gsap.registerPlugin(ScrollTrigger);
+
+  //   let width = container.clientWidth;
+  //   let height = container.clientHeight;
+
+  //   const scene = new THREE.Scene();
+  //   const camera = new THREE.PerspectiveCamera(60, width / height, 0.1, 1000);
+  //   camera.position.z = 7.5;
+
+  //   const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+  //   renderer.setSize(width, height);
+  //   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+  //   const ambientLight = new THREE.AmbientLight(0xffffff, 1.2);
+  //   scene.add(ambientLight);
+
+  //   const pointLight = new THREE.PointLight(0x57ffe0, 3, 30);
+  //   pointLight.position.set(5, 5, 5);
+  //   scene.add(pointLight);
+
+  //   function createShapeMaterial(colorHex = 0x57ffe0) {
+  //     return new THREE.MeshStandardMaterial({
+  //       color: colorHex,
+  //       wireframe: true,
+  //       transparent: true,
+  //       opacity: 1,
+  //       roughness: 0.2,
+  //       metalness: 0.8
+  //     });
+  //   }
+
+  //   const meshTL = new THREE.Mesh(new THREE.TorusKnotGeometry(0.5, 0.16, 64, 16), createShapeMaterial(0x57ffe0));
+  //   const meshTR = new THREE.Mesh(new THREE.BoxGeometry(0.85, 0.85, 0.85), createShapeMaterial(0x3a86ff));
+  //   const meshBL = new THREE.Mesh(new THREE.IcosahedronGeometry(0.65, 1), createShapeMaterial(0x3a86ff));
+  //   const meshBR = new THREE.Mesh(new THREE.ConeGeometry(0.6, 1.2, 16), createShapeMaterial(0x57ffe0));
+
+  //   scene.add(meshTL, meshTR, meshBL, meshBR);
+  //   const meshes = [meshTL, meshTR, meshBL, meshBR];
+
+  //   const startX = 4.0;
+  //   const startY = 2.2; 
+
+  //   const centerPositions = [
+  //     { x: -2.8, y: 1.0, z: 0.5 },  // Top-Left
+  //     { x: 2.8,  y: 1.0, z: 0.5 },  // Top-Right
+  //     { x: -2.8, y: -1.0, z: 0.5 }, // Bottom-Left
+  //     { x: 2.8,  y: -1.0, z: 0.5 }  // Bottom-Right
+  //   ];
+
+  //   meshTL.position.set(-startX, startY, 0);
+  //   meshTR.position.set(startX, startY, 0);
+  //   meshBL.position.set(-startX, -startY, 0);
+  //   meshBR.position.set(startX, -startY, 0);
+
+  //   // ScrollTrigger fix: pinSpacing ko false kar diya gaya hai
+  //   const tl = gsap.timeline({
+  //     scrollTrigger: {
+  //       trigger: "#targetSection",
+  //       start: "top top",
+  //       end: "+=100%", 
+  //       scrub: 1,
+  //       pin: true,
+  //       pinSpacing: false, // Extra bottom gap hatane ke liye
+  //       anticipatePin: 1,
+  //       invalidateOnRefresh: true
+  //     }
+  //   });
+
+  //   meshes.forEach((mesh, index) => {
+  //     tl.to(mesh.position, {
+  //       x: centerPositions[index].x,
+  //       y: centerPositions[index].y,
+  //       z: centerPositions[index].z,
+  //       duration: 1.5,
+  //       ease: "power2.out"
+  //     }, 0);
+  //   });
+
+  //   tl.to(meshTL.position, { x: centerPositions[3].x, y: centerPositions[3].y, duration: 2, ease: "power3.inOut" }, ">");
+  //   tl.to(meshTR.position, { x: centerPositions[2].x, y: centerPositions[2].y, duration: 2, ease: "power3.inOut" }, "<");
+  //   tl.to(meshBL.position, { x: centerPositions[1].x, y: centerPositions[1].y, duration: 2, ease: "power3.inOut" }, "<");
+  //   tl.to(meshBR.position, { x: centerPositions[0].x, y: centerPositions[0].y, duration: 2, ease: "power3.inOut" }, "<");
+
+  //   tl.to(meshes.map(m => m.rotation), {
+  //     x: "+=" + (Math.PI * 2),
+  //     y: "+=" + (Math.PI * 2),
+  //     duration: 2,
+  //     ease: "power3.inOut"
+  //   }, "<");
+
+  //   function animate() {
+  //     requestAnimationFrame(animate);
+  //     meshes.forEach((mesh, i) => {
+  //       mesh.rotation.x += 0.005 * (i + 1);
+  //       mesh.rotation.y += 0.005 * (i + 1);
+  //     });
+  //     renderer.render(scene, camera);
+  //   }
+  //   animate();
+
+  //   window.addEventListener('resize', () => {
+  //     width = container.clientWidth;
+  //     height = container.clientHeight;
+  //     camera.aspect = width / height;
+  //     camera.updateProjectionMatrix();
+  //     renderer.setSize(width, height);
+  //     ScrollTrigger.refresh();
+  //   });
+  // })();
   (function () {
     const container = document.getElementById('targetSection');
     const canvas = document.getElementById('webgl-canvas');
@@ -222,6 +336,16 @@
       });
     }
 
+    // Scale geometry size down a bit on small screens so shapes don't dominate
+    function getScaleFactor() {
+      if (width <= 480) return 0.55;
+      if (width <= 768) return 0.7;
+      if (width <= 1024) return 0.85;
+      return 1;
+    }
+
+    let scaleFactor = getScaleFactor();
+
     const meshTL = new THREE.Mesh(new THREE.TorusKnotGeometry(0.5, 0.16, 64, 16), createShapeMaterial(0x57ffe0));
     const meshTR = new THREE.Mesh(new THREE.BoxGeometry(0.85, 0.85, 0.85), createShapeMaterial(0x3a86ff));
     const meshBL = new THREE.Mesh(new THREE.IcosahedronGeometry(0.65, 1), createShapeMaterial(0x3a86ff));
@@ -229,57 +353,86 @@
 
     scene.add(meshTL, meshTR, meshBL, meshBR);
     const meshes = [meshTL, meshTR, meshBL, meshBR];
+    meshes.forEach(m => m.scale.setScalar(scaleFactor));
 
-    const startX = 4.0;
-    const startY = 2.2; 
+    // Compute responsive positions based on current viewport
+    function getPositions() {
+      const aspect = width / height;
+      // keep shapes proportional to container width instead of fixed world units
+      const startX = aspect < 1 ? 1.6 : 4.0;   // portrait vs landscape
+      const startY = aspect < 1 ? 3.0 : 2.2;
+      const centerX = aspect < 1 ? 1.1 : 2.8;
+      const centerY = aspect < 1 ? 1.8 : 1.0;
 
-    const centerPositions = [
-      { x: -2.8, y: 1.0, z: 0.5 },  // Top-Left
-      { x: 2.8,  y: 1.0, z: 0.5 },  // Top-Right
-      { x: -2.8, y: -1.0, z: 0.5 }, // Bottom-Left
-      { x: 2.8,  y: -1.0, z: 0.5 }  // Bottom-Right
-    ];
+      return {
+        start: { x: startX, y: startY },
+        centers: [
+          { x: -centerX, y: centerY, z: 0.5 },
+          { x: centerX, y: centerY, z: 0.5 },
+          { x: -centerX, y: -centerY, z: 0.5 },
+          { x: centerX, y: -centerY, z: 0.5 }
+        ]
+      };
+    }
 
-    meshTL.position.set(-startX, startY, 0);
-    meshTR.position.set(startX, startY, 0);
-    meshBL.position.set(-startX, -startY, 0);
-    meshBR.position.set(startX, -startY, 0);
+    let positions = getPositions();
 
-    // ScrollTrigger fix: pinSpacing ko false kar diya gaya hai
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: "#targetSection",
-        start: "top top",
-        end: "+=100%", 
-        scrub: 1,
-        pin: true,
-        pinSpacing: false, // Extra bottom gap hatane ke liye
-        anticipatePin: 1,
-        invalidateOnRefresh: true
+    function setInitialPositions() {
+      meshTL.position.set(-positions.start.x, positions.start.y, 0);
+      meshTR.position.set(positions.start.x, positions.start.y, 0);
+      meshBL.position.set(-positions.start.x, -positions.start.y, 0);
+      meshBR.position.set(positions.start.x, -positions.start.y, 0);
+    }
+
+    setInitialPositions();
+
+    let tl; // holds current timeline so we can rebuild it on resize
+
+    function buildTimeline() {
+      if (tl) {
+        tl.scrollTrigger && tl.scrollTrigger.kill();
+        tl.kill();
       }
-    });
 
-    meshes.forEach((mesh, index) => {
-      tl.to(mesh.position, {
-        x: centerPositions[index].x,
-        y: centerPositions[index].y,
-        z: centerPositions[index].z,
-        duration: 1.5,
-        ease: "power2.out"
-      }, 0);
-    });
+      const centerPositions = positions.centers;
 
-    tl.to(meshTL.position, { x: centerPositions[3].x, y: centerPositions[3].y, duration: 2, ease: "power3.inOut" }, ">");
-    tl.to(meshTR.position, { x: centerPositions[2].x, y: centerPositions[2].y, duration: 2, ease: "power3.inOut" }, "<");
-    tl.to(meshBL.position, { x: centerPositions[1].x, y: centerPositions[1].y, duration: 2, ease: "power3.inOut" }, "<");
-    tl.to(meshBR.position, { x: centerPositions[0].x, y: centerPositions[0].y, duration: 2, ease: "power3.inOut" }, "<");
+      tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: "#targetSection",
+          start: "top top",
+          end: "+=100%",
+          scrub: 1,
+          pin: true,
+          pinSpacing: false,
+          anticipatePin: 1,
+          invalidateOnRefresh: true
+        }
+      });
 
-    tl.to(meshes.map(m => m.rotation), {
-      x: "+=" + (Math.PI * 2),
-      y: "+=" + (Math.PI * 2),
-      duration: 2,
-      ease: "power3.inOut"
-    }, "<");
+      meshes.forEach((mesh, index) => {
+        tl.to(mesh.position, {
+          x: centerPositions[index].x,
+          y: centerPositions[index].y,
+          z: centerPositions[index].z,
+          duration: 1.5,
+          ease: "power2.out"
+        }, 0);
+      });
+
+      tl.to(meshTL.position, { x: centerPositions[3].x, y: centerPositions[3].y, duration: 2, ease: "power3.inOut" }, ">");
+      tl.to(meshTR.position, { x: centerPositions[2].x, y: centerPositions[2].y, duration: 2, ease: "power3.inOut" }, "<");
+      tl.to(meshBL.position, { x: centerPositions[1].x, y: centerPositions[1].y, duration: 2, ease: "power3.inOut" }, "<");
+      tl.to(meshBR.position, { x: centerPositions[0].x, y: centerPositions[0].y, duration: 2, ease: "power3.inOut" }, "<");
+
+      tl.to(meshes.map(m => m.rotation), {
+        x: "+=" + (Math.PI * 2),
+        y: "+=" + (Math.PI * 2),
+        duration: 2,
+        ease: "power3.inOut"
+      }, "<");
+    }
+
+    buildTimeline();
 
     function animate() {
       requestAnimationFrame(animate);
@@ -291,14 +444,33 @@
     }
     animate();
 
-    window.addEventListener('resize', () => {
-      width = container.clientWidth;
-      height = container.clientHeight;
-      camera.aspect = width / height;
-      camera.updateProjectionMatrix();
-      renderer.setSize(width, height);
-      ScrollTrigger.refresh();
-    });
+    // Debounced resize/orientation handler that rebuilds geometry positions,
+    // not just the camera/renderer.
+    let resizeTimeout;
+    function handleResize() {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        width = container.clientWidth;
+        height = container.clientHeight;
+
+        camera.aspect = width / height;
+        camera.updateProjectionMatrix();
+        renderer.setSize(width, height);
+
+        const newScale = getScaleFactor();
+        if (newScale !== scaleFactor) {
+          scaleFactor = newScale;
+          meshes.forEach(m => m.scale.setScalar(scaleFactor));
+        }
+
+        positions = getPositions();
+        buildTimeline();
+        ScrollTrigger.refresh();
+      }, 150);
+    }
+
+    window.addEventListener('resize', handleResize);
+    window.addEventListener('orientationchange', handleResize);
   })();
 
   // Three Section
