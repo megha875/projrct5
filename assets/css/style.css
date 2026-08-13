@@ -63,6 +63,7 @@
   position: relative;
   padding-top: 80px;
   background-color:rgb(54, 56, 54); /* Fixes white background issue */
+  
  
 }
 
@@ -249,6 +250,7 @@
   position: relative;
   padding-top: 80px;
   background-color: rgb(54, 56, 54); /* Fixes white background issue */
+   
 }
 
 .section_first #shape3d {
@@ -540,7 +542,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgb(54, 56, 54);
+ 
+  background-color: #fff;
   overflow: hidden;
   box-sizing: border-box;
 }
@@ -611,7 +614,8 @@
 /* Second Section End */
     
    /*  Three Section  Start */
- .dummy-section {
+
+.dummy-section {
   height: 400px;
   display: flex;
   align-items: center;
@@ -619,18 +623,17 @@
   font-size: 1.5rem;
   color: #475569;
 }
- 
 
+/* Base Section Styling */
 .interchange-section {
   position: relative;
   width: 100%;
-  height: 600px;
-  
-  background-color:rgb(54, 56, 54);
+  height: 300vh; /* Smooth scrollytelling delay */
+  background-color: rgb(54, 56, 54);
   z-index: 2;
 }
- 
-.container-flex {
+
+.interchange-section .container-flex {
   position: sticky;
   top: 0;
   display: flex;
@@ -640,49 +643,48 @@
   margin: 0 auto;
   align-items: center;
   justify-content: space-between;
+  box-sizing: border-box;
 }
- 
 
 .left-content {
   width: 45%;
   position: relative;
-  height: 250px;
+  height: 280px; /* Fixed height container for smooth absolute text switching */
 }
- 
+
 .text-step {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   opacity: 0;
-  transform: translateY(30px);
+  transform: translateY(20px);
   transition: opacity 0.5s ease, transform 0.5s ease;
   pointer-events: none;
 }
- 
+
 .text-step.active {
   opacity: 1;
   transform: translateY(0);
   pointer-events: auto;
 }
- 
+
 .text-step h2 {
-  font-size:27px;
+  font-size: 28px;
   font-weight: 700;
   margin-bottom: 15px;
-  color: var(--cyan);
+  color: #57ffe0;
 }
- 
+
 .text-step p {
-  font-size: 1.1rem;
+  font-size: 1rem;
   color: #94a3b8;
   line-height: 1.6;
 }
- 
 
 .right-card {
   width: 50%;
-  height: 70vh;
+  height: 65vh;
   position: relative;
   border-radius: 20px;
   overflow: hidden;
@@ -690,161 +692,119 @@
   background: rgba(255, 255, 255, 0.02);
   border: 1px solid rgba(255, 255, 255, 0.05);
 }
- 
+
 .right-card canvas {
   width: 100% !important;
   height: 100% !important;
   display: block;
 }
-@media (max-width: 768px) {
-  .interchange-section {
-    height: 300vh !important;
-    padding: 0;
-  }
 
-  /* Flexbox Layout Adjustments */
+/* ===================================================
+   TABLET RESPONSIVE (1024px to 769px)
+   =================================================== */
+@media (max-width: 1024px) {
   .container-flex {
-    position: sticky !important;
-    top: 0 !important;
-    display: flex !important;
-    flex-direction: column !important;
-    justify-content: center !important; /* Screen ke vertical center mein rakhega */
-    align-items: center !important;
-    height: 100vh !important;
-    padding: 1.5rem 1rem !important; /* Top/Bottom padding add kar di */
-    gap: 0.8rem !important; /* Text aur Card ke beech ka gap kam kiya */
-    box-sizing: border-box !important;
+    width: 95%;
+    gap: 20px;
   }
 
-  /* Upper Text Box Fix */
   .left-content {
-    width: 100% !important;
-    height: auto !important;
-    min-height: 120px !important; /* Extra height gap remove karne ke liye */
-    text-align: center !important;
-    position: relative !important;
-    z-index: 10 !important;
-  }
-
-  .text-step {
-    position: absolute;
-    top: 30px;
-    left: 0;
-    width: 100%;
+    width: 48%;
+    height: 320px;
   }
 
   .text-step h2 {
-    font-size: 1.4rem !important;
-    margin-bottom: 6px !important;
-    line-height: 1.2 !important;
-  }
-
-  .text-step p {
-    font-size: 0.85rem !important;
-    line-height: 1.35 !important;
-    color: #94a3b8;
-    max-width: 90%;
-    margin: 0 auto; /* Paragraph clear center alignment */
-    display: -webkit-box;
-    -webkit-line-clamp: 3; /* Max 3 lines text */
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-
-  /* Lower 3D Canvas Box Fix */
-  .right-card {
-    width: 100% !important;
-    height: 340px !important; /* Card size balanced */
-    margin-top: 0 !important;
-    position: relative !important;
-    z-index: 5 !important;
-  }
-}
-
-@media (max-width: 425px) {
-  .left-content {
-    /* min-height: 110px !important; */
-    height:220px;
-  }
-
-  .text-step h2 {
-    font-size: 16px !important;
-  }
-  
-  .text-step p {
-    font-size: 0.8rem !important;
-    -webkit-line-clamp: 2; /* Choti screens par 2 lines text */
-  }
-
-  .right-card {
-    height: 280px !important;
-  }
-}
-
-
-/* 
-
-@media (max-width: 768px) {
-
-  .interchange-section {
-    height:700px!important;
-    min-height: 100vh;
-    padding: 3rem 0;
-  }
-
- 
-.interchange-section   .container-flex {
-    position: relative;
-    top: auto;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: auto;
-    gap: 2.5rem;
-  }
-
-
-  .left-content {
-    width: 100%;
-    height: auto;
-    min-height: 220px; 
-    text-align: center; 
-  }
-
- 
-  .text-step h2 {
-    font-size: 1.8rem;
-    margin-bottom: 10px;
+    font-size: 22px;
   }
 
   .text-step p {
     font-size: 0.95rem;
-    line-height: 1.5;
   }
 
-  
   .right-card {
-    width: 100%;
-    height: 350px;
+    width: 48%;
+    height: 50vh;
   }
-} */
-/* 
+}
 
-@media (max-width: 425px) {
+/* ===================================================
+   MOBILE & SMALL TABLET RESPONSIVE (Up to 768px)
+   Overlapping Issue Fixed Here!
+   =================================================== */
+@media (max-width: 768px) {
   .interchange-section {
-    padding: 2rem 0;
-    height:600px;
+    height: 350vh; /* Smooth scrolling space on mobile */
+  }
+
+  .container-flex {
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    padding: 20px 15px !important;
+    gap: 20px !important;
+    padding-top: 80px !important;
+  }
+
+  /* Upper Text Container Fix */
+  .left-content {
+    width: 100% !important;
+    height: 160px !important; /* Proper space reserved so text won't overflow */
+    text-align: center !important;
+    position: relative !important;
+    z-index: 10 !important;
+    flex-shrink: 0;
   }
 
   .text-step h2 {
-    font-size:18px;
+    font-size: 1.3rem !important;
+    margin-bottom: 8px !important;
+    line-height: 1.3 !important;
+  }
+
+  .text-step p {
+    font-size: 0.85rem !important;
+    line-height: 1.4 !important;
+    max-width: 95%;
+    margin: 0 auto;
+    /* Clean 3 lines clamp to prevent overlapping bottom card */
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* Lower 3D Card Box Fix */
+  .right-card {
+    width: 100% !important;
+    height: 280px !important; /* Fixed height so canvas fits properly */
+    margin-top: 0 !important;
+    position: relative !important;
+    z-index: 5 !important;
+    flex-shrink: 0;
+  }
+}
+
+/* Small Screens / Mobile Phones (Up to 425px) */
+@media (max-width: 425px) {
+  .left-content {
+    height: 150px !important;
+  }
+
+  .text-step h2 {
+    font-size:16px !important;
+  }
+
+  .text-step p {
+    font-size: 0.8rem !important;
+    -webkit-line-clamp: 3;
   }
 
   .right-card {
-    height: 280px;
-    top: 57px;
+    height: 240px !important;
   }
-} */
+}
+
+
  
 /*  Three Section  End  */
 /*Four Section Start  */
@@ -972,7 +932,7 @@
 .four_section {
   position: relative;
   width: 100%;
-  background-color: rgb(54, 56, 54);
+  background-color:white;
   overflow: hidden;
 }
 
@@ -1109,8 +1069,7 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      overflow: hidden;
-   
+      overflow: hidden;        
       background-color: rgb(54, 56, 54);
       padding: 2rem 1rem;
     }
@@ -1124,6 +1083,7 @@
 
     @media (min-width: 768px) {
       .testimonials_section .container {
+        
         padding-left: 1.5rem;
         padding-right: 1.5rem;
       }
@@ -1246,8 +1206,7 @@
        font-size:18px;
        font-weight:400;
       line-height: 2rem;
-    
-      color: #f8f7f7;
+      color:#c5c6c7;
     }
 
     .testimonials_section .quote-text::before {
@@ -1384,8 +1343,8 @@
   }
 
   .testimonials_section .tab-btn:nth-child(3) {
-    flex-basis: 100%;      
-    width: max-content;   
+    /* flex-basis: 100%;      
+    width: max-content;    */
     margin: 0.2rem auto 0; 
   }
 }
@@ -1399,7 +1358,8 @@
   width: 100%;
   height:100%;
   min-height:600px;   
-  background-color: rgb(54, 56, 54);
+  background-color:#fff;
+  
   overflow: hidden;
   font-family: "Montserrat", sans-serif;
   display: flex;
@@ -1536,7 +1496,7 @@
   }
 
   .reviews-section .review-content {
-  
+      background:#606472;
     border-radius: 20px;
     padding: 1.8rem;
     backdrop-filter: blur(15px);
@@ -1637,7 +1597,227 @@
 /* Slider Section Start */
 
 /* Footer Section Start */
-.site-footer {
+/* .site-footer {
+   
+   
+   background-color: #fff;
+  color: var(--footer-text);
+  padding: 2rem 0 0;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+ 
+.site-footer h5 {
+  color:black;
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: .03em;
+  margin-bottom: 1.25rem;
+}
+ 
+.site-footer .brand {
+  color:black;
+  font-weight: 700;
+  font-size: 1.4rem;
+  text-decoration: none;
+  display: inline-block;
+  margin-bottom: 1rem;
+}
+ 
+.site-footer .brand span {
+  color:black;
+}
+ 
+
+ .site-footer p {
+    font-size: 14px;     
+    font-weight: 300;
+    line-height: 1.6;
+    color: black;
+}
+ 
+.footer-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+ 
+.footer-links li {
+  margin-bottom: .65rem;
+   font-size: 14px;    
+    font-weight: 300;
+}
+ 
+.footer-links a {
+  color:black;
+  text-decoration: none;
+ 
+  transition: color .15s ease, padding-left .15s ease;
+}
+ 
+.footer-links a:hover {
+  color:black;
+  padding-left: 4px;
+}
+ 
+.footer-contact li {
+
+  margin-bottom: .85rem;
+  display: flex;
+  align-items: flex-start;
+  gap: .6rem;
+}
+ 
+.footer-contact i {
+  color:black;
+  margin-top: .2rem;
+}
+ 
+.social-icons a {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--footer-bg-alt);
+  color: var(--footer-text);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: .6rem;
+  text-decoration: none;
+  transition: background .15s ease, color .15s ease, transform .15s ease;
+}
+ 
+.social-icons a:hover {
+  background: var(--footer-accent);
+  color:black;
+  transform: translateY(-3px);
+}
+ 
+.newsletter-form .form-control {
+  background: var(--footer-bg-alt);
+  border: 1px solid var(--footer-border);
+  color: #fff;
+}
+ 
+.newsletter-form .form-control::placeholder {
+  color: #7a808c;
+}
+ 
+.newsletter-form .form-control:focus {
+  background: var(--footer-bg-alt);
+  color: #fff;
+  box-shadow: 0 0 0 .2rem rgba(239, 131, 84, .25);
+  border-color: var(--footer-accent);
+}
+ 
+ 
+ .footer-links li,
+.footer-contact li {
+    font-size: 14px;
+    font-weight: 300;
+}
+ 
+ 
+ 
+.newsletter-form .form-control {
+    background: var(--footer-bg-alt);
+    border: 1px solid var(--footer-border);
+    color:black;
+    border-radius: 30px;   
+    padding: 10px 15px;
+}
+.newsletter-form .btn{
+  background:#57ffe0;
+  border-color: #57ffe0;
+}
+ 
+.footer-bottom {
+  border-top: 1px solid var(--footer-border);
+  margin-top: 3rem;
+  padding: 1.25rem 0;
+  font-size: .85rem;
+}
+ 
+.footer-bottom a {
+  color: var(--footer-text);
+  text-decoration: none;
+}
+ 
+.footer-bottom a:hover {
+  color: var(--footer-accent);
+}
+ 
+.footer-bottom .bottom-links li {
+  display: inline-block;
+}
+ 
+.footer-bottom .bottom-links li:not(:last-child)::after {
+  content: "";
+  display: inline-block;
+  width: 1px;
+  height: 12px;
+  background: var(--footer-border);
+  margin: 0 .9rem;
+  vertical-align: middle;
+}
+.social-icons a {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background:white;        
+    color:black;          
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+ 
+.social-icons a i {
+    color: #161616 !important; 
+    font-size: 16px;
+}
+ 
+.social-icons a:hover {
+    background: #f5f5f5;
+    transform: translateY(-3px);
+}
+.newsletter-box{
+    display: flex;
+    align-items: center;
+    background:white;
+    border: 1px solid #555;
+    border-radius: 50px;
+    overflow: hidden;
+    max-width: 380px;
+}
+ 
+.newsletter-box .form-control{
+    flex: 1;
+    border: none;
+    background: transparent;
+    color:black;
+    padding: 12px 18px;
+    box-shadow: none;
+}
+ 
+.newsletter-box .form-control:focus{
+    outline: none;
+    box-shadow: none;
+    background: transparent;
+}
+ 
+.newsletter-box .btn{
+    border: none;
+    background: #0e0d0d;
+    color: white;
+    padding: 12px 25px;
+    border-radius: 50px;
+    margin: 4px;
+    white-space: nowrap;
+} */
+ 
+ .site-footer {
    /* background-color: #0b0c10; */
    background-color:rgb(54, 56, 54);
   color: var(--footer-text);
@@ -1676,7 +1856,7 @@
     font-size: 14px;      /* Ya 13px agar aur chhota chahiye */
     font-weight: 300;
     line-height: 1.6;
-    color: #fff;
+    color:#fff;
 }
  
 .footer-links {
@@ -1860,7 +2040,6 @@
     margin: 4px;
     white-space: nowrap;
 }
- 
  
  
 /* Footer Section End */
