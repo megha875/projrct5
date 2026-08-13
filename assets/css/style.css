@@ -249,7 +249,7 @@
 .section_first {
   position: relative;
   padding-top: 80px;
-  background-color: rgb(54, 56, 54); /* Fixes white background issue */
+  background-color: rgb(54, 56, 54); 
    
 }
 
@@ -272,10 +272,10 @@
   flex-direction: column;
   justify-content: space-between;
   padding: 6vh 6vw;
-  pointer-events: none; /* Mouse events pass through to 3D canvas */
+  pointer-events: none; 
 }
 
-/* FIXED: Added space between .section_first and .hero so buttons are clickable */
+
 .section_first .hero button,
 .section_first .hero a {
   pointer-events: auto;
@@ -426,7 +426,7 @@
   line-height: 1.6;
 }
 
-/* Reducer motion support */
+
 @media (prefers-reduced-motion: reduce) {
   .section_first canvas { display: none; }
   .section_first #shape3d {
@@ -434,23 +434,21 @@
   }
 }
 
-/* ==========================================================
-   RESPONSIVE BREAKPOINT: 320px to 768px
-   ========================================================== */
+
 @media (max-width: 768px) {
-  /* 1. Completely hide the 3D canvas and shape container */
+  
   .section_first #shape3d,
   .section_first canvas {
     display: none !important;
   }
 
-  /* 2. Re-enable direct touch/pointer interactions for hero layout */
+  
   .section_first .hero {
     padding: 40px 24px;
     pointer-events: auto;
   }
 
-  /* 3. Adjust top row layout */
+  
   .section_first .top-row {
     flex-direction: column;
     gap: 16px;
@@ -460,7 +458,7 @@
     text-align: left;
   }
 
-  /* 4. Adjust bottom row layout */
+ 
   .section_first .bottom-row {
     flex-direction: column;
     align-items: flex-start;
@@ -487,67 +485,30 @@
     text-align: left;
   }
 }
-/* 
-.second_section {
-  position: relative;
-  width: 100%;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center; 
-  background-color: rgb(54, 56, 54);
-  overflow: hidden;
-  box-sizing: border-box;
-}
 
-.second_section #webgl-canvas {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-  pointer-events: none;
-}
 
-.second_section .center-text {
-  position: relative;
-  z-index: 2;
-  text-align: center;
-  color: #ffffff;
-  max-width: 650px;
-  padding: 0 20px;
-}
 
-.second_section .center-text h2 {
-  font-size: 2.5rem;
-  font-weight: 700;
-  margin: 0 0 20px 0;
-  color: #57FFE0;
-}
 
-.second_section .center-text p {
-  margin: 0;
-  font-size: 1.1rem;
-  line-height: 1.8;
-  color: #c5c6c7;
-} */
- /* Second Section Start */
+/* Second Section Start */
 
 .second_section {
   position: relative;
   width: 100%;
-  height:250px;
-
+  height:400px;
   display: flex;
   justify-content: center;
   align-items: center;
- 
-  background-color: #fff;
+  background-color: white; 
   overflow: hidden;
   box-sizing: border-box;
+  margin-bottom: 0 !important; 
 }
 
+.second_section  .center-text{
+  margin-top:30px;
+  margin-bottom:30px;
+
+}
 .second_section #webgl-canvas {
   position: absolute;
   top: 0;
@@ -581,7 +542,7 @@
   color: #c5c6c7;
 }
 
-/* Tablet */
+/* Responsive Breakpoints */
 @media (max-width: 1024px) {
   .second_section .center-text {
     max-width: 500px;
@@ -589,7 +550,6 @@
   }
 }
 
-/* Mobile */
 @media (max-width: 600px) {
   .second_section .center-text {
     max-width: 90%;
@@ -602,20 +562,6 @@
     line-height: 1.6;
   }
 }
-@media (max-width: 320px) {
-   .second_section .center-text h2 {
-    
-    font-weight: 700;
-    margin: 0 0 20px 0;
-    color: #57FFE0;
-}
-.second_section {
-     height:300px;
-   
-}
-}
-
-/* Second Section End */
 /* Second Section End */
     
    /*  Three Section  Start */
@@ -675,7 +621,7 @@
 }
 
 .text-step h2 {
-  font-size: 28px;
+  font-size: 18px;
   font-weight: 700;
   margin-bottom: 15px;
   color: #57ffe0;
@@ -690,6 +636,8 @@
 .right-card {
   width: 50%;
   height: 65vh;
+      margin-top: 90px;
+    margin-bottom: 90px;
   position: relative;
   border-radius: 20px;
   overflow: hidden;
@@ -699,6 +647,8 @@
 }
 
 .right-card canvas {
+  margin-top: 40px;
+    margin-bottom: 30px;
   width: 100% !important;
   height: 100% !important;
   display: block;
@@ -813,6 +763,7 @@
  
 /*  Three Section  End  */
 /*Four Section Start  */
+
 .four_section {
   position: relative;
   width: 100%;
@@ -829,16 +780,19 @@
   pointer-events: none;
   z-index: 1;
 }
-
+.top_section{
+  margin-top:40px;
+  margin-bottom:40px;
+}
 /* Desktop Styles */
 .four_section .section {
   position: relative;
   width: 100%;
-  min-height: 480px;
+  min-height: 400px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 2rem 8%;
+  padding: 0.9rem 3%; /* Desktop spacing reduced */
   z-index: 2;
   box-sizing: border-box;
 }
@@ -853,27 +807,27 @@
 }
 
 .four_section .content h2 {
-  font-size: 27px;
+  font-size: 18px;
   font-weight: 700;
-  margin-bottom: 0.8rem;
-  background: #57ffe0;
+  margin: 0 0 0.5rem 0; /* Space reduced */
+  background: #262727;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-.four_section .content p {
-  font-size: 1.1rem;
+.four_section  p {
+  font-size:15px;
   color: #94a3b8;
-  line-height: 1.7;
+  line-height: 1.6;
+  margin: 0;
 }
 
 .four_section .view-container {
   width: 48%;
-  height: 450px;
+  height: 420px;
   border-radius: 20px;
   border: 1px solid rgba(87, 255, 224, 0.15);
   background: rgba(142, 146, 156, 0.03);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
 }
 
 /* ===================================================
@@ -886,34 +840,35 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 1.5rem 5% !important; 
-    gap: 1rem !important; 
+    /* Section ke top/bottom padding ko 2.5rem se ghata kar 1rem kar diya */
+    padding: 1rem 5% !important; 
+    gap: 0.6rem !important; /* Text aur 3D Box ke beech ka gap kam kiya */
+    box-sizing: border-box;
   }
 
   .four_section .content {
     width: 100% !important;
     text-align: center;
     order: 1 !important;
-    margin-top: 0.5rem !important; 
-    margin-bottom: 0.8rem !important; /* Text block aur canvas box ke beech clean gap */
+    margin: 0 !important;
     padding: 0 !important;
   }
 
-  .four_section .content h2 {
-    font-size: 1.5rem;
-    /* Heading aur Paragraph ke beech perfect space */
-    margin-bottom: 0.9rem !important; 
+  .four_section  h2 {
+    font-size: 1.4rem;
+    /* Heading aur Paragraph ke beech tight 0.3rem gap */
+    margin: 0 0 0.3rem 0 !important; 
   }
 
-  .four_section .content p {
-    font-size: 0.95rem;
-    line-height: 1.5;
+  .four_section  p {
+    font-size: 14px;
+    line-height: 1.4;
     margin: 0 !important; 
   }
 
   .four_section .view-container {
     width: 100% !important;
-    height: 280px;
+    height: 250px;
     order: 2 !important;
   }
 }
@@ -923,7 +878,34 @@
    =================================================== */
 @media (max-width: 428px) {
   .four_section .section {
-    padding: 1.2rem 4% !important; 
+    /* Mobile par clean compact spacing */
+    padding: 1rem 4% !important; 
+    gap: 0.6rem !important;
+  }
+
+  .four_section  h2 {
+    font-size: 16px;
+    /* Heading ke top aur bottom me equal balance */
+    margin-top: 3px !important;
+    margin-bottom:3px!important; /* h2 aur p ke beech ka space */
+  }
+
+  .four_section  p {
+    font-size: 0.85rem;
+    line-height: 1.4;
+    /* Paragraph ki top/bottom margin reset */
+    margin-top: 12px !important;
+    margin-bottom: 0.5rem !important; 
+    
+  }
+
+  .four_section .view-container {
+    height: 200px;
+  }
+}
+
+  /* .four_section .section {
+    padding:3rem 4% !important; 
     gap: 0.8rem !important;
   }
 
@@ -934,7 +916,7 @@
 
   .four_section .content h2 {
     font-size: 17px;
-    /* Mobile par h2 aur p ke beech gap badhaya gaya */
+    
     margin-bottom: 0.75rem !important; 
   }
 
@@ -945,7 +927,7 @@
 
   .four_section .view-container {
     height: 220px;
-  }
+  } */
 }
 /* Four Section End */
  /* Testimonal Section Start */
@@ -953,16 +935,24 @@
 .testimonials_section {
       position: relative;
       width: 100%;
-      height:550px;
+      height:799px;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       overflow: hidden;        
-      background-color: rgb(54, 56, 54);
+      background-color: rgb(54, 56, 54) !important;
       padding: 2rem 1rem;
+        margin-top:30px;
+      margin-bottom:30px;
     }
-
+ .testimonials_section .slider-wrapper {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+    margin-top:30px;
+    margin-bottom:30px;
+    }
     .testimonials_section .container {
       width: 100%;
      
@@ -980,12 +970,15 @@
 .testimonials_section {
     position: relative;
     width: 100%;
-    height: 550px;
+    
+   background: #363836;
 }
     .testimonials_section .slider-wrapper {
       display: flex;
       justify-content: center;
       width: 100%;
+    margin-top:30px;
+    margin-bottom:30px;
     }
 
     .testimonials_section .testimonial-card {
@@ -1029,21 +1022,18 @@
     }
 
     .testimonials_section .glow-circle {
-      position: absolute;
-      top: -43%;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 480px;
-      height: 480px;
-      pointer-events: none;
-      border-radius: 50%;
-      background: linear-gradient(
-        180deg,
-        #57ffe040 0%,
-        #57ffe00d 50%,
-        transparent 100%
-      );
-      z-index: 0;
+    position: absolute;
+    top: -46%;
+    left: 50%;
+    bottom: 168%;
+    transform: translateX(-50%);
+    width: 480px;
+    height: 422px;
+    pointer-events: none;
+    border-radius: 50%;
+    background: linear-gradient(180deg, #57ffe040 0%, #57ffe00d 50%, transparent 100%);
+    z-index: 0;
+    margin-bottom: 111px;
     }
 
     .testimonials_section .avatar-mask {
@@ -1335,9 +1325,9 @@
     background: rgba(28, 34, 54, 0.7);
     border-radius: 20px;
     padding: 2.5rem;
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    box-shadow: inset 0 0 25px rgba(255, 255, 255, 0.05), 0 15px 35px rgba(0, 0, 0, 0.35);
+    /* backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px); */
+    
     border: 1px solid rgba(255, 255, 255, 0.08);
     display: flex;
     flex-direction: column;
@@ -1389,9 +1379,7 @@
       background:#606472;
     border-radius: 20px;
     padding: 1.8rem;
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    box-shadow: inset 0 0 25px rgba(255, 255, 255, 0.05), 0 15px 35px rgba(0, 0, 0, 0.35);
+    
     border: 1px solid rgba(255, 255, 255, 0.08);
     display: flex;
     flex-direction: column;
@@ -1433,7 +1421,7 @@
   height: 100%;
   object-fit: cover;
   border-radius: 1.5rem;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+ 
   transition: all 0.3s ease;
 }
 

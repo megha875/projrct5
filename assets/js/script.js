@@ -473,139 +473,153 @@
   //   window.addEventListener('orientationchange', handleResize);
   // })();
 (function () {
-    const container = document.getElementById('targetSection');
-    const canvas = document.getElementById('webgl-canvas');
-    if (!container || !canvas || typeof THREE === 'undefined' || typeof gsap === 'undefined') return;
+  // GSAP ScrollTrigger Plugin Register
+  if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+    gsap.registerPlugin(ScrollTrigger);
+  }
 
-    let width = container.clientWidth;
-    let height = container.clientHeight;
+  const container = document.getElementById('targetSection');
+  const canvas = document.getElementById('webgl-canvas');
+  if (!container || !canvas || typeof THREE === 'undefined' || typeof gsap === 'undefined') return;
 
-    const scene = new THREE.Scene();
-    
-    // Camera ko peeche shift kiya hai taaki corners par space zyada mile
-    const camera = new THREE.PerspectiveCamera(60, width / height, 0.1, 1000);
-    camera.position.z = 8.5;
+  let width = container.clientWidth;
+  let height = container.clientHeight;
 
-    const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
-    renderer.setSize(width, height);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  const scene = new THREE.Scene();
 
-    const ambientLight = new THREE.AmbientLight(0xffffff, 1.2);
-    scene.add(ambientLight);
+  const camera = new THREE.PerspectiveCamera(60, width / height, 0.1, 1000);
+  camera.position.z = 8.5;
 
-    const pointLight = new THREE.PointLight(0x57ffe0, 3, 30);
-    pointLight.position.set(5, 5, 5);
-    scene.add(pointLight);
+  const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+  renderer.setSize(width, height);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-    function createShapeMaterial(colorHex = 0x57ffe0) {
-      return new THREE.MeshStandardMaterial({
-        color: colorHex,
-        wireframe: true,
-        transparent: true,
-        opacity: 1,
-        roughness: 0.2,
-        metalness: 0.8
-      });
-    }
+  const ambientLight = new THREE.AmbientLight(0xffffff, 1.2);
+  scene.add(ambientLight);
 
-    // Mobile aur Tablet ke hisaab se shapes ka size adjust karna
-    function getScaleFactor() {
-      if (width <= 480) return 0.5;
-      if (width <= 768) return 0.65;
-      if (width <= 1024) return 0.8;
-      return 1;
-    }
+  const pointLight = new THREE.PointLight(0x57ffe0, 3, 30);
+  pointLight.position.set(5, 5, 5);
+  scene.add(pointLight);
 
-    let scaleFactor = getScaleFactor();
+  function createShapeMaterial(colorHex = 0x57ffe0) {
+    return new THREE.MeshStandardMaterial({
+      color: colorHex,
+      wireframe: true,
+      transparent: true,
+      opacity: 1,
+      roughness: 0.2,
+      metalness: 0.8
+    });
+  }
 
-    const meshTL = new THREE.Mesh(new THREE.TorusKnotGeometry(0.5, 0.16, 64, 16), createShapeMaterial(0x57ffe0));
-    const meshTR = new THREE.Mesh(new THREE.BoxGeometry(0.85, 0.85, 0.85), createShapeMaterial(0x3a86ff));
-    const meshBL = new THREE.Mesh(new THREE.IcosahedronGeometry(0.65, 1), createShapeMaterial(0x3a86ff));
-    const meshBR = new THREE.Mesh(new THREE.ConeGeometry(0.6, 1.2, 16), createShapeMaterial(0x57ffe0));
+  function getScaleFactor() {
+    if (width <= 480) return 0.5;
+    if (width <= 768) return 0.65;
+    if (width <= 1024) return 0.8;
+    return 1;
+  }
 
-    scene.add(meshTL, meshTR, meshBL, meshBR);
-    const meshes = [meshTL, meshTR, meshBL, meshBR];
-    meshes.forEach(m => m.scale.setScalar(scaleFactor));
+  let scaleFactor = getScaleFactor();
 
-    // Shapes ko corners par door rakhne ke liye wide position coordinates
-    function getPositions() {
-      const aspect = width / height;
+  const meshTL = new THREE.Mesh(new THREE.TorusKnotGeometry(0.5, 0.16, 64, 16), createShapeMaterial(0x57ffe0));
+  const meshTR = new THREE.Mesh(new THREE.BoxGeometry(0.85, 0.85, 0.85), createShapeMaterial(0x3a86ff));
+  const meshBL = new THREE.Mesh(new THREE.IcosahedronGeometry(0.65, 1), createShapeMaterial(0x3a86ff));
+  const meshBR = new THREE.Mesh(new THREE.ConeGeometry(0.6, 1.2, 16), createShapeMaterial(0x57ffe0));
 
-      // Text se door, pure viewport ke 4 corners par position set ki gayi hai
-      let centerX = aspect < 1 ? 1.8 : 4.5;
-      let centerY = aspect < 1 ? 2.6 : 2.0;
+  scene.add(meshTL, meshTR, meshBL, meshBR);
+  const meshes = [meshTL, meshTR, meshBL, meshBR];
+  meshes.forEach(m => m.scale.setScalar(scaleFactor));
 
-      return [
-        { x: -centerX, y: centerY, z: 0 },  // Top-Left Corner
-        { x: centerX, y: centerY, z: 0 },   // Top-Right Corner
-        { x: -centerX, y: -centerY, z: 0 }, // Bottom-Left Corner
-        { x: centerX, y: -centerY, z: 0 }   // Bottom-Right Corner
-      ];
-    }
+  function getPositions() {
+    const aspect = width / height;
+    let centerX = aspect < 1 ? 1.8 : 4.5;
+    let centerY = aspect < 1 ? 2.6 : 2.0;
 
-    let centers = getPositions();
+    return [
+      { x: -centerX, y: centerY, z: 0 },  // Top-Left (Index 0)
+      { x: centerX, y: centerY, z: 0 },   // Top-Right (Index 1)
+      { x: -centerX, y: -centerY, z: 0 }, // Bottom-Left (Index 2)
+      { x: centerX, y: -centerY, z: 0 }   // Bottom-Right (Index 3)
+    ];
+  }
 
-    function setPositions() {
-      meshes.forEach((mesh, i) => {
-        mesh.position.set(centers[i].x, centers[i].y, centers[i].z);
-      });
-    }
-    setPositions();
+  let centers = getPositions();
 
-    // GSAP Auto Loop Animation (Bina ScrollTrigger Ke)
-    let mainTL;
-    function buildAnimation() {
-      if (mainTL) mainTL.kill();
+  function setPositions() {
+    meshes.forEach((mesh, i) => {
+      mesh.position.set(centers[i].x, centers[i].y, centers[i].z);
+    });
+  }
+  setPositions();
 
-      // Smooth Infinite Loop Animation
-      mainTL = gsap.timeline({ repeat: -1, yoyo: true });
+  // --- Scroll Animation, Pinning & Hold Logic ---
+  let scrollTL;
+  function buildAnimation() {
+    if (scrollTL) scrollTL.kill();
 
-      mainTL.to(meshTL.position, { x: centers[3].x, y: centers[3].y, duration: 4, ease: "sine.inOut" }, 0);
-      mainTL.to(meshTR.position, { x: centers[2].x, y: centers[2].y, duration: 4, ease: "sine.inOut" }, 0);
-      mainTL.to(meshBL.position, { x: centers[1].x, y: centers[1].y, duration: 4, ease: "sine.inOut" }, 0);
-      mainTL.to(meshBR.position, { x: centers[0].x, y: centers[0].y, duration: 4, ease: "sine.inOut" }, 0);
-    }
+    scrollTL = gsap.timeline({
+      scrollTrigger: {
+        trigger: container,
+        start: "top  bottom",      // Section jaise hi top viewport par aayega
+        end: "+=10",         // Total scroll length (Animation + Position Hold)
+        pin: true,             // Section screen par fixed ho jayega
+        pinSpacing: true,      // Next section ko properly layout space ke sath rakhega
+        scrub: 1,              // Smooth scroll synchronization
+        anticipatePin: 1
+      }
+    });
 
-    buildAnimation();
+    // 1. Viewport scroll hone par shapes corner positions swap karenge
+    scrollTL.to(meshTL.position, { x: centers[3].x, y: centers[3].y, ease: "power1.inOut", duration: 1 }, 0);
+    scrollTL.to(meshTR.position, { x: centers[2].x, y: centers[2].y, ease: "power1.inOut", duration: 1 }, 0);
+    scrollTL.to(meshBL.position, { x: centers[1].x, y: centers[1].y, ease: "power1.inOut", duration: 1 }, 0);
+    scrollTL.to(meshBR.position, { x: centers[0].x, y: centers[0].y, ease: "power1.inOut", duration: 1 }, 0);
 
-    // Continuous Rotation Animation
-    function animate() {
-      requestAnimationFrame(animate);
-      meshes.forEach((mesh, i) => {
-        mesh.rotation.x += 0.006 * (i + 1);
-        mesh.rotation.y += 0.006 * (i + 1);
-      });
-      renderer.render(scene, camera);
-    }
-    animate();
+    // 2. Extra Hold/Pause: Shapes apni nayi position par rukenge jab tak next scroll finish na ho
+    scrollTL.to({}, { duration: 1.2 });
+  }
 
-    // Resize Handler
-    let resizeTimeout;
-    function handleResize() {
-      clearTimeout(resizeTimeout);
-      resizeTimeout = setTimeout(() => {
-        width = container.clientWidth;
-        height = container.clientHeight;
+  buildAnimation();
 
-        camera.aspect = width / height;
-        camera.updateProjectionMatrix();
-        renderer.setSize(width, height);
+  // Continuous Self Rotation (Positions swap aur hold hone par bhi 3D shapes rotatate hote rahenge)
+  function animate() {
+    requestAnimationFrame(animate);
+    meshes.forEach((mesh, i) => {
+      mesh.rotation.x += 0.006 * (i + 1);
+      mesh.rotation.y += 0.006 * (i + 1);
+    });
+    renderer.render(scene, camera);
+  }
+  animate();
 
-        const newScale = getScaleFactor();
-        if (newScale !== scaleFactor) {
-          scaleFactor = newScale;
-          meshes.forEach(m => m.scale.setScalar(scaleFactor));
-        }
+  // Resize Handler
+  let resizeTimeout;
+  function handleResize() {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(() => {
+      width = container.clientWidth;
+      height = container.clientHeight;
 
-        centers = getPositions();
-        setPositions();
-        buildAnimation();
-      }, 150);
-    }
+      camera.aspect = width / height;
+      camera.updateProjectionMatrix();
+      renderer.setSize(width, height);
 
-    window.addEventListener('resize', handleResize);
-    window.addEventListener('orientationchange', handleResize);
-  })();
+      const newScale = getScaleFactor();
+      if (newScale !== scaleFactor) {
+        scaleFactor = newScale;
+        meshes.forEach(m => m.scale.setScalar(scaleFactor));
+      }
+
+      centers = getPositions();
+      setPositions();
+      buildAnimation();
+      ScrollTrigger.refresh();
+    }, 150);
+  }
+
+  window.addEventListener('resize', handleResize);
+  window.addEventListener('orientationchange', handleResize);
+})();
   // Three Section
 (function () {
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
