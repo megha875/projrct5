@@ -537,8 +537,8 @@
 .second_section {
   position: relative;
   width: 100%;
-  height: 100vh;
-  height: 100dvh; /* fixes mobile browser address-bar jump */
+  height:250px;
+
   display: flex;
   justify-content: center;
   align-items: center;
@@ -604,12 +604,17 @@
 }
 @media (max-width: 320px) {
    .second_section .center-text h2 {
-    font-size: clamp(1.6rem, 5vw, 2.5rem);
+    
     font-weight: 700;
     margin: 0 0 20px 0;
     color: #57FFE0;
 }
+.second_section {
+     height:300px;
+   
 }
+}
+
 /* Second Section End */
 /* Second Section End */
     
@@ -808,131 +813,10 @@
  
 /*  Three Section  End  */
 /*Four Section Start  */
-/* .four_section {
-  position: relative;
-  width: 100%;
-  background-color:rgb(54, 56, 54);
- 
-  overflow: hidden;
-}
-
-
-.four_section #bg-canvas {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 1;
-}
-
-.four_section .section {
-  position: relative;
-  width: 100%;
-  height: 698px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 8%;
-  z-index: 2;
-  box-sizing: border-box;
-}
-
-.four_section .content {
-  width: 42%;
-  pointer-events: auto;
-}
-
-.four_section .content.right {
-  order: 2;
-}
-
-.four_section .content h2 {
-  font-size: 2.5rem;
-  font-weight: 700;
-  margin-bottom: 1rem;
-  background: #57ffe0;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.four_section .content p {
-  font-size: 1.1rem;
-  color: #94a3b8;
-  line-height: 1.7;
-}
-
-.four_section .view-container {
-  width: 48%;
-  height: 65vh;
-  border-radius: 20px;
-  border: 1px solid rgba(87, 255, 224, 0.15);
-  background: rgba(142, 146, 156, 0.03);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-
-}
-
-@media (max-width: 768px) {
-
-  .four_section .section {
-    height: auto !important;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 3rem 5%;
-    gap: 2rem;
-  }
-
- 
-  .four_section .content {
-    width: 100% !important;
-    text-align: center;
-    order: 1 !important; 
-  }
-
-
-  .four_section .content h2 {
-    font-size: 1.8rem;
-    margin-bottom: 0.75rem;
-  }
-
-  .four_section .content p {
-    font-size: 0.98rem;
-    line-height: 1.6;
-  }
-
-
-  .four_section .view-container {
-    width: 100% !important;
-    height: 320px; 
-    order: 2 !important; 
-  }
-}
-
-
-@media (max-width: 428px) {
-  .four_section .section {
-    padding: 2rem 4%;
-    gap: 1.5rem;
-  }
-
-  .four_section .content h2 {
-    font-size: 18px;
-  }
-
-  .four_section .content p {
-    font-size: 0.9rem;
-  }
-
-  .four_section .view-container {
-    height: 260px; 
-  }
-} */
 .four_section {
   position: relative;
   width: 100%;
-  background-color:white;
+  background-color: white;
   overflow: hidden;
 }
 
@@ -1002,34 +886,34 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    /* Top aur Bottom padding 1rem (16px) kar di hai spacing kam karne ke liye */
-    padding: 1rem 5% !important; 
-    /* Text aur Canvas box ke beech ka vertical space kam kiya */
-    gap: 0.8rem !important; 
+    padding: 1.5rem 5% !important; 
+    gap: 1rem !important; 
   }
 
   .four_section .content {
     width: 100% !important;
     text-align: center;
     order: 1 !important;
+    margin-top: 0.5rem !important; 
+    margin-bottom: 0.8rem !important; /* Text block aur canvas box ke beech clean gap */
+    padding: 0 !important;
   }
 
   .four_section .content h2 {
-    font-size: 1.6rem;
-    /* Heading ke niche ki margin kam ki */
-    margin-bottom: 0.3rem !important; 
+    font-size: 1.5rem;
+    /* Heading aur Paragraph ke beech perfect space */
+    margin-bottom: 0.9rem !important; 
   }
 
   .four_section .content p {
     font-size: 0.95rem;
     line-height: 1.5;
-    /* Paragraph ke niche ki margin zero ki */
-    margin-bottom: 0 !important; 
+    margin: 0 !important; 
   }
 
   .four_section .view-container {
     width: 100% !important;
-    height: 280px; /* Tablet view container height */
+    height: 280px;
     order: 2 !important;
   }
 }
@@ -1039,23 +923,28 @@
    =================================================== */
 @media (max-width: 428px) {
   .four_section .section {
-    /* Mobile par extra tight spacing ke liye 0.75rem padding */
-    padding: 0.75rem 4% !important; 
-    gap: 0.5rem !important;
+    padding: 1.2rem 4% !important; 
+    gap: 0.8rem !important;
+  }
+
+  .four_section .content {
+    margin-top: 0.3rem !important;
+    margin-bottom: 0.6rem !important;
   }
 
   .four_section .content h2 {
-    font-size:16px;
-    margin-bottom: 0.2rem !important;
+    font-size: 17px;
+    /* Mobile par h2 aur p ke beech gap badhaya gaya */
+    margin-bottom: 0.75rem !important; 
   }
 
   .four_section .content p {
     font-size: 0.88rem;
-    line-height: 1.4;
+    line-height: 1.45;
   }
 
   .four_section .view-container {
-    height: 220px; /* Mobile screen ke hisaab se height optimize */
+    height: 220px;
   }
 }
 /* Four Section End */
@@ -1466,7 +1355,7 @@
   }
 
   .reviews-section .reviews-heading {
-    margin-bottom: 2rem;
+    margin-bottom: 3.5rem;
   }
 
   .reviews-section .reviews-heading h2 {
@@ -1475,6 +1364,7 @@
   }
 
   .reviews-section .reviews-heading p {
+    padding-top: 13px;
     font-size: 0.9rem;
   }
 
@@ -1529,13 +1419,22 @@
 }
 
 /* Global Content Styling */
-.reviews-section .review-image {
+/* .reviews-section .review-image {
   position: absolute;
   width: 100%;
   height: 100%;
   object-fit: cover;
   border-radius: 1.5rem;
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+} */
+ .reviews-section .review-image {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 1.5rem;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+  transition: all 0.3s ease;
 }
 
 .reviews-section .name {
@@ -1593,6 +1492,24 @@
 
 .reviews-section .arrow-button:hover svg {
   fill: #0a0a0a;
+}
+@media (max-width: 768px) {
+  .reviews-section .review-image {
+    width: 85% !important; /* Left aur Right me equal space banega */
+    left: 50% !important;  /* Center positioning */
+    transform: translateX(-50%) !important; /* Perfectly center align karega */
+  }
+}
+
+/* ===================================================
+   MOBILE SCREENS (428px & below)
+   =================================================== */
+@media (max-width: 428px) {
+  .reviews-section .review-image {
+    width: 108% !important; /* Mobile par thoda extra equal side gap ke liye */
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+  }
 }
 /* Slider Section Start */
 
