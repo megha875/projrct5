@@ -14,16 +14,155 @@
  :root{
     --ink:#090c11;
     --ink-deep:#626568;
+     --nav-bg: #f4f5f4;
+  --nav-text: #201f1f;
     --teal:#0f3d3e;
     --cyan:#57ffe0;
     --cyan-dim:#2b6b62;
     --sand:#e7e0d8;
     --grey:#8b93a1;
-  }
+  
+  /* DARK MODE: Black Background, White Text */
+  --bg-color: #090c11;
+  --text-color: #ffffff;
+  --nav-bg: #000000;
+  --nav-text: #ffffff;
+  --dropdown-bg: #111111;
+  --dropdown-text: #ffffff;
+  --cyan: #57ffe0;
+}
 
-
+[data-theme="light"] {
+  /* LIGHT MODE: White Background, Black Text */
+  --bg-color: #f8f9fa;
+  --text-color: #000000;
+  --nav-bg: #ffffff;
+  --nav-text: #000000;
+  --dropdown-bg: #ffffff;
+  --dropdown-text: #000000;
+}
 /* Navbar Section Start */
-      .navbar-brand {
+.navbar {
+  background-color: var(--nav-bg) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  transition: background-color 0.3s ease;
+}
+
+.navbar-brand {
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: var(--nav-text) !important;
+}
+
+.nav-link {
+  font-weight: 500;
+  margin: 0 6px;
+  color: var(--nav-text) !important;
+}
+
+.nav-link.active {
+  color: var(--cyan) !important;
+}
+
+.dropdown-menu {
+  background-color: var(--dropdown-bg);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.dropdown-item {
+  color: var(--dropdown-text) !important;
+}
+
+.dropdown-item:hover {
+  background-color: var(--cyan);
+  color: #000000 !important;
+}
+
+.btn-cta {
+  border-radius: 30px;
+  padding: 6px 22px;
+  border-color: var(--cyan);
+  background-color: var(--cyan);
+  color: #000000;
+  font-weight: 600;
+}
+
+.content-spacer {
+  padding-top: 100px;
+  text-align: center;
+  color: var(--cyan) !important;
+}
+
+/* ===================================================
+   Toggle Switch Custom Design
+   =================================================== */
+.theme-switch-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.theme-switch {
+  display: inline-block;
+  height: 28px;
+  position: relative;
+  width: 54px;
+  margin-bottom: 0;
+}
+
+.theme-switch input {
+  display: none;
+}
+
+.slider {
+  background-color: #3a3d40;
+  bottom: 0;
+  cursor: pointer;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  transition: .4s;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 6px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.slider .icon {
+  font-size: 11px;
+  user-select: none;
+}
+
+.slider:before {
+  background-color: #ffffff;
+  bottom: 3px;
+  content: "";
+  height: 20px;
+  left: 3px;
+  position: absolute;
+  transition: .4s;
+  width: 20px;
+  z-index: 2;
+}
+
+input:checked + .slider {
+  background-color: var(--cyan);
+}
+
+input:checked + .slider:before {
+  transform: translateX(26px);
+  background-color: #000000;
+}
+
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+      /* .navbar-brand {
       font-weight: 700;
       letter-spacing: 0.5px;
     }
@@ -52,10 +191,9 @@
     .content-spacer {
       padding-top: 100px;
       text-align: center;
-      /* color: #6c757d; */
-       /* color:#f1e9d8 !important; */
+    
        color: #57FFE0 !important;
-    }
+    } */
 
 /* Navbar Section Start */
 /* First Section Start */
